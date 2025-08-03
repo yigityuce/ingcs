@@ -1,0 +1,95 @@
+:root {
+  /* BASE TOKENS > COLOR > COMMON */
+  --ing-color-black: #000000;
+  --ing-color-white: #ffffff;
+  --ing-color-brand: #ff6200;
+
+  /* BASE TOKENS > COLOR > RED */
+  --ing-color-red-50: #ffebee;
+  --ing-color-red-100: #ffcdd2;
+  --ing-color-red-200: #ef9a9a;
+  --ing-color-red-300: #e57373;
+  --ing-color-red-400: #ef5350;
+  --ing-color-red-500: #f44336;
+  --ing-color-red-600: #e53935;
+  --ing-color-red-700: #d32f2f;
+  --ing-color-red-800: #c62828;
+  --ing-color-red-900: #b71c1c;
+
+  /* BASE TOKENS > COLOR > GREEN */
+  --ing-color-green-50: #e8f5e9;
+  --ing-color-green-100: #c8e6c9;
+  --ing-color-green-200: #a5d6a7;
+  --ing-color-green-300: #81c784;
+  --ing-color-green-400: #66bb6a;
+  --ing-color-green-500: #4caf50;
+  --ing-color-green-600: #43a047;
+  --ing-color-green-700: #388e3c;
+  --ing-color-green-800: #2e7d32;
+  --ing-color-green-900: #1b5e20;
+
+  /* BASE TOKENS > COLOR > AMBER */
+  --ing-color-amber-50: #fff8e1;
+  --ing-color-amber-100: #ffecb3;
+  --ing-color-amber-200: #ffe082;
+  --ing-color-amber-300: #ffd54f;
+  --ing-color-amber-400: #ffca28;
+  --ing-color-amber-500: #ffc107;
+  --ing-color-amber-600: #ffb300;
+  --ing-color-amber-700: #ffa000;
+  --ing-color-amber-800: #ff8f00;
+  --ing-color-amber-900: #ff6f00;
+
+  /* BASE TOKENS > COLOR > GREY PALETTE */
+  --ing-color-grey-50: #fafafa;
+  --ing-color-grey-100: #f5f5f5;
+  --ing-color-grey-200: #eeeeee;
+  --ing-color-grey-300: #e0e0e0;
+  --ing-color-grey-400: #bdbdbd;
+  --ing-color-grey-500: #9e9e9e;
+  --ing-color-grey-600: #757575;
+  --ing-color-grey-700: #616161;
+  --ing-color-grey-800: #424242;
+  --ing-color-grey-900: #212121;
+
+  /* BASE TOKENS > SIZE > SPACING */
+  --ing-size-spacing-2x-small: 0.125rem;
+  --ing-size-spacing-x-small: 0.25rem;
+  --ing-size-spacing-small: 0.5rem;
+  --ing-size-spacing-medium: 1rem;
+  --ing-size-spacing-large: 1.5rem;
+  --ing-size-spacing-2x-large: 3rem;
+
+  /* BASE TOKENS > SIZE > GAP */
+  --ing-size-gap-x-small: 0.125rem;
+  --ing-size-gap-small: 0.25rem;
+  --ing-size-gap-medium: 0.5rem;
+  --ing-size-gap-large: 0.75rem;
+  --ing-size-gap-x-large: 1rem;
+
+  /* BASE TOKENS > SIZE > RADIUS */
+  --ing-size-radius-x-small: 0.125rem;
+  --ing-size-radius-small: 0.25rem;
+  --ing-size-radius-medium: 0.5rem;
+  --ing-size-radius-large: 0.75rem;
+  --ing-size-radius-x-large: 1rem;
+
+  /* SEMANTIC TOKENS > COLOR > BACKGROUND */
+  --ing-color-background-default: var(--ing-color-grey-100);
+  --ing-color-background-surface: var(--ing-color-white);
+
+  /* SEMANTIC TOKENS > COLOR > TEXT */
+  --ing-color-text-primary: var(--ing-color-grey-900);
+  --ing-color-text-secondary: var(--ing-color-brand);
+
+  /* SEMANTIC TOKENS > COLOR > STATUS */
+  --ing-color-error-main: var(--ing-color-red-500);
+  --ing-color-error-light: var(--ing-color-red-300);
+  --ing-color-error-dark: var(--ing-color-red-800);
+  --ing-color-success-main: var(--ing-color-green-400);
+  --ing-color-success-light: var(--ing-color-green-200);
+  --ing-color-success-dark: var(--ing-color-green-700);
+  --ing-color-warning-main: var(--ing-color-amber-500);
+  --ing-color-warning-light: var(--ing-color-amber-300);
+  --ing-color-warning-dark: var(--ing-color-amber-800);
+}
