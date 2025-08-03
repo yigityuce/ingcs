@@ -1,7 +1,3 @@
-
-
-
-
 ```js
 import {LitElement, css, html} from 'lit';
 
@@ -30,17 +26,17 @@ export class TestComponent extends LitElement {
 customElements.define('test-component', TestComponent);
 ```
 
-
 # Features
+
 - Batch update
 - Partial re-render
 - Shadow-DOM always
-- 
+-
 
 <br /><br /><br /><br />
 
-
 # Key Notes
+
 - to use any other custom components in the component, it **needs to be imported**
 
 <br /><br /><br /><br />
@@ -48,7 +44,6 @@ customElements.define('test-component', TestComponent);
 # API
 
 ## Component
-
 
 ### ComponentClass.render()
 
@@ -59,7 +54,7 @@ customElements.define('test-component', TestComponent);
   - DOM Node
   - Sentinel values: `nothing` and `noChange`
   - Array of those types above
-  
+
 #### Best Practices
 
 - do NOT change state
@@ -77,29 +72,29 @@ customElements.define('test-component', TestComponent);
 - property options:
 
 ```js
-{ 
+{
         // type of prop. it will be used while converting attr. to prop.
         // can be: String, Number, Boolean, Array, and Object
-        type: String, 
+        type: String,
 
         // boolean or string -> associate with attr. or custom name
         attribute: true,
-        
+
         // reflect back prop. value to attr.
         reflect: false,
 
         // prevents prop's default values to be reflected to attr.
         // also use prop's default value when the attr. is removed
         useDefault: false,
-        
+
         // declare as internal reactive state, does NOT generate an attr.
         state: false,
-        
+
         // to avoid auto accessor generation, why we need this??
         noAccessor: false,
-        
+
         // defines how to convert values from/to attribute
-        converter: { 
+        converter: {
             fromAttribute: (value, type) => {},
             toAttribute: (value, type) => {}
         },
@@ -113,13 +108,12 @@ customElements.define('test-component', TestComponent);
 ```
 
 #### Mutate object and array props
+
 - use immutable data pattern: `Array.filter` etc.
 - use `immer`
 - call `this.requestUpdate()` after mutation
   - only re-render current component
   - sub components where mutated props are used won't be re-rendered
-
-
 
 ## Styles
 
@@ -154,20 +148,23 @@ static styles = css`
   - add to `static styles` as array item
 
 ```js
-import { buttonStyles } from './button-styles.js';
+import {buttonStyles} from './button-styles.js';
 
 class MyElement extends LitElement {
   static styles = [
     buttonStyles,
     css`
-      :host { display: block;
+      :host {
+        display: block;
         border: 1px solid black;
-      }`
+      }
+    `,
   ];
 }
 ```
 
 - special selectors:
+
   - `:host` and `:host()`
   - `:slotted(*)` and `:slotted(selector)`
 
@@ -180,10 +177,10 @@ import {classMap} from 'lit/directives/class-map.js';
 import {styleMap} from 'lit/directives/style-map.js';
 ```
 
-
 ## Lifecycle
 
 ### Methods
+
 - `constructor()`
   - on element is created
 - `connectedCallback()`
@@ -200,17 +197,21 @@ import {styleMap} from 'lit/directives/style-map.js';
 - `updated(changedProperties: Map)`
 
 ### Manual Trigger
+
 - call `requestUpdate()` method
 
 ### `updateComplete` Promise
+
 - By default, the updateComplete promise resolves when the element's update has completed
 - does NOT wait for any children to have completed their update
 - his behavior may be customized by overriding `getUpdateComplete`
 
 ### `hasUpdated` Property
+
 - returns true if the component has updated at least once
 
 ### Override `updateComplete` Behavior
+
 - override `getUpdateComplete()` method
 
 ```js
@@ -223,33 +224,34 @@ class MyElement extends LitElement {
 }
 ```
 
-
 ## Shadow DOM
 
 ### Query component's children
+
 - `this.renderRoot.querySelector()`
 
 ### Customizing the render root
+
 - set `shadowRootOptions`:
   - check https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters
 
 ```js
 class DelegatesFocus extends LitElement {
-    static shadowRootOptions = {
-        ...LitElement.shadowRootOptions,
-        mode: 'open',
-        clonable: false,
-        delegatesFocus: false,
-        serializable: false,
-        slotAssignment: 'named'
-    };
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    mode: 'open',
+    clonable: false,
+    delegatesFocus: false,
+    serializable: false,
+    slotAssignment: 'named',
+  };
 }
 ```
-
 
 ## Events
 
 ### Template Binding
+
 - use `@` expression
 
 ```js
@@ -268,7 +270,9 @@ export class MyElement extends LitElement {
   render() {
     return html`
       <button @click="${this._increment}">Click Me!</button>
-      <button @click=${{handleEvent: () => this._added(), once: true}}>click</button>
+      <button @click=${{handleEvent: () => this._added(), once: true}}>
+        click
+      </button>
       <p>Click count: ${this.count}</p>
     `;
   }
@@ -276,7 +280,6 @@ export class MyElement extends LitElement {
   _increment(e) {
     this.count++;
   }
-
 
   _added(e) {
     console.log('Element added to basket');
@@ -287,67 +290,78 @@ customElements.define('my-element', MyElement);
 ```
 
 ### Event listener for component itself or slotted elements
+
 - listeners should be added via `this.addEventListener` within constructor
 - extract source element in handler to decide where the event is emitted
 - **Retargeting**: be aware that while the event is propagated outside of the custom component, target will be set to the custom component, not the internal element within the custom component
 
 ### Event listener for global objects
+
 - `window`, `document` etc
 - should be added via `this.addEventListener` within `connectedCallback()` and removed within `disconnectedCallback()`
 
-
 ### Dispatching
+
 - use `this.dispatchEvent()`
 - By default, an event dispatched inside a shadow root **will not be visible outside that shadow root.**
 - To make an event pass through shadow DOM boundaries, you must set the `composed` property to `true`.
 - It's common to pair `composed` with `bubbles` so that all nodes in the DOM tree can see the event
-
-
 
 ## Templates
 
 ### Expressions
 
 - Attributes
-  - always string 
+  - always string
+
 ```js
-    html`<div class=${highlightClass}></div>`
+html`<div class=${highlightClass}></div>`;
 ```
+
 - Booleans
   - renders if truthy
+
 ```js
-    html`<div ?hidden=${!show}></div>`
+html`<div ?hidden=${!show}></div>`;
 ```
+
 - Properties
   - Can be used to pass **complex data** down the tree to subcomponents
+
 ```js
-    html`<input .value=${value}>`
+html`<input .value=${value} />`;
 ```
+
 - Events
+
 ```js
-    html`<button @click=${this._clickHandler}>Go</button>`
+html`<button @click=${this._clickHandler}>Go</button>`;
 ```
+
 - Directives
+
 ```js
-    html`<input ${ref(inputRef)}>`
+html`<input ${ref(inputRef)} />`;
 ```
 
 ### `nothing`
+
 ```js
-html`<img src="/images/${this.imagePath ?? nothing}/${this.imageFile ?? nothing}">`;
+html`<img
+  src="/images/${this.imagePath ?? nothing}/${this.imageFile ?? nothing}"
+/>`;
 ```
 
 - In this example **both** the `this.imagePath` and `this.imageFile` properties must be defined for the src attribute to be set
-- Also  `ifDefined` directive is provided which is sugar for `value ?? nothing`
+- Also `ifDefined` directive is provided which is sugar for `value ?? nothing`
 
 ```js
-html`<img src="/images/${ifDefined(this.imagePath)}/${ifDefined(this.imageFile)}">`;
+html`<img
+  src="/images/${ifDefined(this.imagePath)}/${ifDefined(this.imageFile)}"
+/>`;
 ```
 
 ### Built-in Directives
-
-
-
 
 #### `ref`
 
@@ -355,27 +369,26 @@ html`<img src="/images/${ifDefined(this.imagePath)}/${ifDefined(this.imageFile)}
 
 ```js
 class MyElement extends LitElement {
-  static properties = {
-    enabled: {type: Boolean},
-  };
 
-  constructor() {
-    super();
-    this.enabled = false;
-  }
+  inputRef = createRef();
 
   render() {
-    const classes = { enabled: this.enabled, hidden: false };
-    return html`<div class=${classMap(classes)}>Classy text</div>`;
+    // Passing ref directive a Ref object that will hold the element in .value
+    return html`<input ${ref(this.inputRef)}>`;
+  }
+
+  firstUpdated() {
+    const input = this.inputRef.value!;
+    input.focus();
   }
 }
+customElements.define('my-element', MyElement);
 ```
-
 
 #### `classMap`
 
-- uses the `element.classList` API to efficiently add and remove classes to an element based on an object passed by the user. 
-- Each key in the object is treated as a class name, and if the value associated with the key is truthy, that class is added to the element. 
+- uses the `element.classList` API to efficiently add and remove classes to an element based on an object passed by the user.
+- Each key in the object is treated as a class name, and if the value associated with the key is truthy, that class is added to the element.
 - On subsequent renders, any previously set classes that are falsy or no longer in the object are removed.
 
 ```js
@@ -390,7 +403,7 @@ class MyElement extends LitElement {
   }
 
   render() {
-    const classes = { enabled: this.enabled, hidden: false };
+    const classes = {enabled: this.enabled, hidden: false};
     return html`<div class=${classMap(classes)}>Classy text</div>`;
   }
 }
@@ -404,12 +417,15 @@ class MyElement extends LitElement {
 class MyElement extends LitElement {
   render() {
     return html`
-      ${when(this.user, () => html`User: ${this.user.username}`, () => html`Sign In...`)}
+      ${when(
+        this.user,
+        () => html`User: ${this.user.username}`,
+        () => html`Sign In...`
+      )}
     `;
   }
 }
 ```
-
 
 #### `choose`
 
@@ -419,22 +435,23 @@ class MyElement extends LitElement {
 class MyElement extends LitElement {
   render() {
     return html`
-      ${choose(this.section, [
-        ['home', () => html`<h1>Home</h1>`],
-        ['about', () => html`<h1>About</h1>`]
-      ],
-      () => html`<h1>Error</h1>`)}
+      ${choose(
+        this.section,
+        [
+          ['home', () => html`<h1>Home</h1>`],
+          ['about', () => html`<h1>About</h1>`],
+        ],
+        () => html`<h1>Error</h1>`
+      )}
     `;
   }
 }
 ```
 
-
 #### `map`
 
-- always updates any DOM created in place 
+- always updates any DOM created in place
 - it does not do any diffing or DOM movement
-
 
 ```js
 class MyElement extends LitElement {
@@ -452,7 +469,6 @@ class MyElement extends LitElement {
 
 - Method signature: `repeat(items, keyFunction, itemTemplate)`
 - **Does NOT recreate DOM nodes, instead it moves them**
-
 
 ```js
 import {LitElement, html} from 'lit';
@@ -475,18 +491,17 @@ class MyElement extends LitElement {
 
   render() {
     return html`
-    <ul>
-      ${repeat(
-        this.employees,
-        (employee) => employee.id,
-        (employee, index) => html`
-        <li>${index}: ${employee.familyName}, ${employee.givenName}</li>
-      `
-      )}
-    </ul>
-  `;
+      <ul>
+        ${repeat(
+          this.employees,
+          (employee) => employee.id,
+          (employee, index) => html`
+            <li>${index}: ${employee.familyName}, ${employee.givenName}</li>
+          `
+        )}
+      </ul>
+    `;
   }
-
 }
 ```
 
@@ -510,9 +525,7 @@ class MyElement extends LitElement {
 ```js
 class MyElement extends LitElement {
   render() {
-    return html`
-      ${map(range(0, 8, 1), (i) => html`${i + 1}`)}
-    `;
+    return html` ${map(range(0, 8, 1), (i) => html`${i + 1}`)} `;
   }
 }
 ```
@@ -525,11 +538,12 @@ class MyElement extends LitElement {
 class MyElement extends LitElement {
   render() {
     // src attribute not rendered if either size or filename are undefined
-    return html`<img src="/images/${ifDefined(this.size)}/${ifDefined(this.filename)}">`;
+    return html`<img
+      src="/images/${ifDefined(this.size)}/${ifDefined(this.filename)}"
+    />`;
   }
 }
 ```
-
 
 #### `cache`
 
@@ -544,10 +558,9 @@ render() {
 }
 ```
 
-
 #### `keyed`
 
-- Associates a renderable value with a unique key. 
+- Associates a renderable value with a unique key.
 - When the key changes, the previous DOM is **removed and disposed** before rendering the next value, even if the value—such as a template—is the same.
 - Useful when you're rendering stateful elements and you need to ensure that all state of the element is cleared when some critical data changes
 
@@ -563,14 +576,15 @@ class MyElement extends LitElement {
   }
 
   render() {
-    return html`
-      <div>
-        ${keyed(this.userId, html`<user-card .userId=${this.userId}></user-card>`)}
-      </div>`;
+    return html` <div>
+      ${keyed(
+        this.userId,
+        html`<user-card .userId=${this.userId}></user-card>`
+      )}
+    </div>`;
   }
 }
 ```
-
 
 #### `guard`
 
@@ -588,21 +602,18 @@ class MyElement extends LitElement {
   }
 
   render() {
-    return html`
-      <div>
-        ${guard([this.value], () => calculateSHA(this.value))}
-      </div>`;
+    return html` <div>
+      ${guard([this.value], () => calculateSHA(this.value))}
+    </div>`;
   }
 }
 ```
-
-
 
 #### `live`
 
 - Sets an attribute or property if it differs from the **live DOM** value rather than the **last-rendered** value.
 - When determining whether to update the value, checks the expression value against the live DOM value, instead of Lit's default behavior of checking against the last set value.
-- This is useful for cases where the DOM value may change from outside of Lit. 
+- This is useful for cases where the DOM value may change from outside of Lit.
 - For example, when using an expression to set an `<input>` element's value property, a content editable element's text, or to a custom element that changes its own properties or attributes.
 
 ```js
@@ -617,12 +628,11 @@ class MyElement extends LitElement {
   }
 
   render() {
-    return html`<input .value=${live(this.data.value)}>`;
+    return html`<input .value=${live(this.data.value)} />`;
   }
 }
 customElements.define('my-element', MyElement);
 ```
-
 
 #### `unsafeHTML` / `unsafeSVG`
 
@@ -634,13 +644,11 @@ const markup = '<h3>Some HTML to render.</h3>';
 class MyElement extends LitElement {
   render() {
     return html`
-      Look out, potentially unsafe HTML ahead:
-      ${unsafeHTML(markup)}
+      Look out, potentially unsafe HTML ahead: ${unsafeHTML(markup)}
     `;
   }
 }
 ```
-
 
 #### `until`
 
@@ -654,7 +662,7 @@ class MyElement extends LitElement {
 
   constructor() {
     super();
-    this.content = fetch('./content.txt').then(r => r.text());
+    this.content = fetch('./content.txt').then((r) => r.text());
   }
 
   render() {
