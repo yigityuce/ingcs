@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="./src/styles/styles.css" />
     <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="./node_modules/lit/polyfill-support.js"></script>
+    <script>
+      // Required by some npm packages
+      window.process = {browser: true, env: {ENVIRONMENT: 'BROWSER'}};
+    </script>
     <script type="module" src="./src/app.js"></script>
   </head>
   <body>

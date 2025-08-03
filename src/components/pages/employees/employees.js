@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import {faker} from '@faker-js/faker';
+import {appDataStore} from '../../../utilities';
 
 import '../../molecules/page-header';
 import '../../organisms/page-layout';
@@ -30,24 +30,10 @@ export class IngEmployees extends LitElement {
 
   constructor() {
     super();
-    this._employees = faker.helpers.multiple(
-      () => {
-        const firstName = faker.person.firstName();
-        const lastName = faker.person.lastName();
-        const email = faker.internet.email(firstName, lastName);
-        return {
-          email,
-          firstName,
-          lastName,
-          dateOfEmployment: faker.date.past(10),
-          dateOfBirth: faker.date.birthdate({min: 25, max: 50, mode: 'age'}),
-          phoneNumber: faker.phone.number({style: 'international'}),
-          department: faker.helpers.arrayElement(['Analytics', 'Tech']),
-          position: faker.helpers.arrayElement(['Junior', 'Medior', 'Senior']),
-        };
-      },
-      {count: 30}
-    );
+    this._employees = appDataStore.getState().employees || [];
+    appDataStore.subscribe((state) => {
+      this._employees = state.employees || [];
+    });
   }
 
   render() {
@@ -56,7 +42,15 @@ export class IngEmployees extends LitElement {
         <ing-page-header slot="header" title="Employee List"> </ing-page-header>
         <ing-employees-table
           .employees=${this._employees}
-        ></ing-employees-table>
+          @delete=${(e) => {
+            appDataStore.getState().deleteEmployee(e.detail);
+          }}
+          @edit=${(e) => {
+            console.log(e.detail);
+            appDataStore.getState().editEmployee(e.detail);
+          }}
+        >
+        </ing-employees-table>
       </ing-page-layout>
     `;
   }

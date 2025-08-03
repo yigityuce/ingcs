@@ -4,6 +4,8 @@ import {maskitoTransform} from '@maskito/core';
 import {formatDate, MASK_PHONE} from '../../../utilities';
 
 import '../../atoms/typography';
+import '../../atoms/icon-button';
+import '../../atoms/icons';
 
 export class IngEmployeesTable extends LitElement {
   /**
@@ -30,9 +32,11 @@ export class IngEmployeesTable extends LitElement {
         position: relative;
         overflow: auto;
         max-height: 100%;
+        align-content: flex-start;
       }
 
       .row {
+        height: fit-content;
         display: grid;
         grid-template-columns: subgrid;
         grid-column: span 10;
@@ -46,6 +50,12 @@ export class IngEmployeesTable extends LitElement {
         position: sticky;
         z-index: 2;
         background-color: var(--ing-color-background-surface);
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
       }
     `;
   }
@@ -92,18 +102,28 @@ export class IngEmployeesTable extends LitElement {
         (employee) => employee.email,
         (employee) => html`
           <div class="row">
-            <ing-typography class="cell">
+            <div class="cell">
               <input type="checkbox" />
-            </ing-typography>
-            <ing-typography class="cell">
+            </div>
+            <ing-typography class="cell" strong>
               ${employee.firstName}
             </ing-typography>
-            <ing-typography class="cell"> ${employee.lastName} </ing-typography>
+            <ing-typography class="cell" strong> 
+            ${employee.lastName} 
+        </ing-typography>
             <ing-typography class="cell">
-              ${formatDate(employee.dateOfEmployment)}
+              ${formatDate(
+                typeof employee.dateOfEmployment === 'string'
+                  ? new Date(employee.dateOfEmployment)
+                  : employee.dateOfEmployment
+              )}
             </ing-typography>
             <ing-typography class="cell">
-              ${formatDate(employee.dateOfBirth)}
+              ${formatDate(
+                typeof employee.dateOfBirth === 'string'
+                  ? new Date(employee.dateOfBirth)
+                  : employee.dateOfBirth
+              )}
             </ing-typography>
             <ing-typography class="cell">
               ${maskitoTransform(employee.phoneNumber, {mask: MASK_PHONE})}
@@ -114,23 +134,22 @@ export class IngEmployeesTable extends LitElement {
             </ing-typography>
             <ing-typography class="cell"> ${employee.position} </ing-typography>
             <div class="cell">
-              <button
-                @click="${() =>
-                  this.dispatchEvent(
-                    new CustomEvent('edit-employee', {detail: {employee}})
-                  )}"
-              >
-                Edit
-              </button>
-              <button
-                @click="${() =>
-                  this.dispatchEvent(
-                    new CustomEvent('delete-employee', {detail: {employee}})
-                  )}"
-              >
-                Delete
-              </button>
-            </div>
+                <div class="actions">
+                    <ing-icon-button @click=${() =>
+                      this.dispatchEvent(
+                        new CustomEvent('edit', {detail: employee})
+                      )}>
+                        <ing-icon-outlined-edit-square color="secondary" size="medium" /></ing-icon-outlined-edit-square>
+                    </ing-icon-button>
+
+                    <ing-icon-button @click=${() =>
+                      this.dispatchEvent(
+                        new CustomEvent('delete', {detail: employee})
+                      )}>
+                        <ing-icon-filled-trash color="secondary" size="medium" /></ing-icon-filled-trash>
+                    </ing-icon-button>
+                </div>
+                </div>
           </div>
         `
       )}
