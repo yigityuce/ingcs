@@ -6,7 +6,7 @@ export class IngLogo extends LitElement {
    */
   static get properties() {
     return {
-      size: {type: String, reflect: true},
+      size: {type: String, reflect: true}, // type: 'small', 'medium', 'large'
     };
   }
 
