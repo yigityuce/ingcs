@@ -32,6 +32,11 @@ export const iconStyles = css`
     fill: var(--ing-color-success-main);
     --fill-color: var(--ing-color-success-main);
   }
+  :host([color='disabled']) {
+    color: var(--ing-color-grey-400);
+    fill: var(--ing-color-grey-400);
+    --fill-color: var(--ing-color-grey-400);
+  }
 
   /* SIZE styles */
   :host([size='small']) {

@@ -13,7 +13,7 @@ export class IngEmployeesTable extends LitElement {
    */
   static get properties() {
     return {
-      employees: {type: Array}, // type { email: string, firstName: string, lastName: string, dateOfEmployment: Date, dateOfBirdiv: Date, phoneNumber: string, department: 'Analytics' | 'Tech', position: 'Junior' | 'Medior' | 'Senior', }
+      employees: {type: Array}, // type { email: string, firstName: string, lastName: string, dateOfEmployment: Date, dateOfBirth: Date, phoneNumber: string, department: 'Analytics' | 'Tech', position: 'Junior' | 'Medior' | 'Senior', }
     };
   }
 
@@ -25,7 +25,7 @@ export class IngEmployeesTable extends LitElement {
       :host {
         display: grid;
         grid-template-columns: min-content repeat(8, 1fr) min-content;
-        column-gap: var(--ing-size-spacing-medium);
+        column-gap: var(--ing-size-gap-x-large);
         width: 100%;
         background-color: var(--ing-color-background-surface);
         border-radius: var(--ing-size-radius-medium);

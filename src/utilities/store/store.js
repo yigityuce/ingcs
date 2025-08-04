@@ -30,10 +30,10 @@ const createEmployees = (count) => {
 export const appDataStore = createStore(
   persist(
     immer((set) => ({
-      employees: createEmployees(100),
+      employees: createEmployees(750),
       reinitEmployees: () =>
         set((state) => {
-          state.employees = createEmployees(100);
+          state.employees = createEmployees(750);
         }),
       editEmployee: (employee) =>
         set((state) => {

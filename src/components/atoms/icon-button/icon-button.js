@@ -5,7 +5,9 @@ export class IngIconButton extends LitElement {
    * @type import('lit').PropertyDeclarations
    */
   static get properties() {
-    return {};
+    return {
+      disabled: {type: Boolean, reflect: true},
+    };
   }
 
   /**
@@ -15,12 +17,21 @@ export class IngIconButton extends LitElement {
     return css`
       :host {
         display: inline-flex;
-        padding: var(--ing-size-spacing-small);
+        padding: var(--ing-size-spacing-x-small);
         box-sizing: border-box;
         border-radius: 50%;
         cursor: pointer;
+        aspect-ratio: 1 / 1;
+        height: 100%;
+        width: auto;
+        align-items: center;
+        justify-content: center;
       }
-      :host(:hover) {
+      :host([disabled]) {
+        cursor: default;
+        pointer-events: none;
+      }
+      :host(:not([disabled]):hover) {
         background-color: var(--ing-color-grey-100);
       }
     `;

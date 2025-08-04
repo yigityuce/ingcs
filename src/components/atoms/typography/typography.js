@@ -55,11 +55,6 @@ export class IngTypography extends LitElement {
         font-weight: 400;
         line-height: 1.25rem;
       }
-      :host([variant='title6']) {
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.25rem;
-      }
       :host([variant='body1']) {
         font-size: 1rem;
         font-weight: 300;
@@ -85,6 +80,9 @@ export class IngTypography extends LitElement {
       }
 
       /* COLOR styles */
+      :host([color='inherit']) {
+        color: inherit;
+      }
       :host([color='primary']) {
         color: var(--ing-color-text-primary);
       }

@@ -53,9 +53,9 @@
   --ing-color-grey-900: #212121;
 
   /* BASE TOKENS > SIZE > SPACING */
-  --ing-size-spacing-2x-small: 0.125rem;
-  --ing-size-spacing-x-small: 0.25rem;
-  --ing-size-spacing-small: 0.5rem;
+  --ing-size-spacing-2x-small: 0.25rem;
+  --ing-size-spacing-x-small: 0.5rem;
+  --ing-size-spacing-small: 0.75rem;
   --ing-size-spacing-medium: 1rem;
   --ing-size-spacing-large: 1.5rem;
   --ing-size-spacing-2x-large: 3rem;

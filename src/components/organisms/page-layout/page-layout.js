@@ -31,6 +31,10 @@ export class IngPageLayout extends LitElement {
       ::slotted(:not([slot])) {
         flex-grow: 1;
       }
+
+      ::slotted([slot='footer']) {
+        border-top: 1px solid var(--ing-color-grey-300);
+      }
     `;
   }
 
