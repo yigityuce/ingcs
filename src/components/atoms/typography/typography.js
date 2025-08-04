@@ -24,6 +24,10 @@ export class IngTypography extends LitElement {
           sans-serif; // TODO: Change to the correct font family
       }
 
+      :host(:focus-visible) {
+        outline: none;
+      }
+
       /* VARIANT styles */
       :host([variant='title1']) {
         font-size: 3rem;

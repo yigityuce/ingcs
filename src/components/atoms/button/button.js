@@ -9,6 +9,7 @@ export class IngButton extends LitElement {
       type: {type: String, reflect: true}, // e.g., 'button', 'submit', 'reset'
       variant: {type: String, reflect: true}, // e.g., 'outlined', 'contained', 'text',
       color: {type: String, reflect: true}, // e.g., 'primary', 'secondary',
+      fullWidth: {type: Boolean, reflect: true},
     };
   }
 
@@ -33,6 +34,10 @@ export class IngButton extends LitElement {
         position: relative;
       }
 
+      :host([fullWidth]) {
+        width: 100%;
+      }
+
       button {
         all: unset;
         display: flex;
@@ -45,6 +50,8 @@ export class IngButton extends LitElement {
         border-radius: inherit;
         cursor: inherit;
         white-space: inherit;
+        height: 100%;
+        width: 100%;
         padding: var(--ing-size-spacing-small);
       }
 

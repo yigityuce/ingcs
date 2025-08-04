@@ -9,7 +9,12 @@ export class IngApp extends LitElement {
    * @type Router
    */
   _routerInstance = null;
+
+  /**
+   * @type {import('lit/directives/ref.js').Ref<HTMLElement>}
+   */
   _routerElementRef = createRef();
+
   _appContextProvider = new ContextProvider(this, {context: appContext});
 
   /**
