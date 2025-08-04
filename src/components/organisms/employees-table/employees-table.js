@@ -12,6 +12,7 @@ import {Translatable} from '../../../mixins';
 import '../../atoms/typography';
 import '../../atoms/icon-button';
 import '../../atoms/icons';
+import '../../atoms/surface';
 
 export class IngEmployeesTable extends Translatable(LitElement) {
   /**
@@ -29,12 +30,15 @@ export class IngEmployeesTable extends Translatable(LitElement) {
   static get styles() {
     return css`
       :host {
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+        overflow: hidden;
+      }
+      .table {
         display: grid;
         grid-template-columns: min-content repeat(8, 1fr) min-content;
         column-gap: var(--ing-size-gap-x-large);
-        width: 100%;
-        background-color: var(--ing-color-background-surface);
-        border-radius: var(--ing-size-radius-medium);
         position: relative;
         overflow: auto;
         max-height: 100%;
@@ -73,42 +77,46 @@ export class IngEmployeesTable extends Translatable(LitElement) {
 
   render() {
     return html`
-      <div class="row table-header">
-        <div class="cell"><input type="checkbox" /></div>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.lastName.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.dateOfEmployment.label', {
-            ns: Namespaces.EMPLOYEE,
-          })}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.dateOfBirth.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.phone.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.email.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.department.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.position.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-        <ing-typography class="cell" color="secondary" strong>
-          ${translate('fields.actions.label', {ns: Namespaces.EMPLOYEE})}
-        </ing-typography>
-      </div>
-      ${repeat(
-        this.employees,
-        (employee) => employee.email,
-        (employee) => html`
+      <ing-surface withBackground withBorderRadius>
+        <div class="table">
+          <div class="row table-header">
+            <div class="cell"><input type="checkbox" /></div>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.lastName.label', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.dateOfEmployment.label', {
+                ns: Namespaces.EMPLOYEE,
+              })}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.dateOfBirth.label', {
+                ns: Namespaces.EMPLOYEE,
+              })}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.phone.label', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.email.label', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.department.label', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.position.label', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
+            <ing-typography class="cell" color="secondary" strong>
+              ${translate('fields.actions.label', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
+          </div>
+          ${repeat(
+            this.employees,
+            (employee) => employee.email,
+            (employee) => html`
           <div class="row">
             <div class="cell">
               <input type="checkbox" />
@@ -160,7 +168,9 @@ export class IngEmployeesTable extends Translatable(LitElement) {
                 </div>
           </div>
         `
-      )}
+          )}
+        </div>
+      </ing-surface>
     `;
   }
 }

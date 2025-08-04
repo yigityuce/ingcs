@@ -4,8 +4,6 @@ import {ContextProvider} from '@lit/context';
 import {Router} from '@vaadin/router';
 import {appContext} from './contexts/app.context';
 
-import './components/organisms/navigation-bar';
-
 export class IngApp extends LitElement {
   /**
    * @type Router
@@ -49,12 +47,7 @@ export class IngApp extends LitElement {
   }
 
   render() {
-    return html`
-      <header>
-        <ing-navigation-bar></ing-navigation-bar>
-      </header>
-      <main ${ref(this._routerElementRef)}></main>
-    `;
+    return html` <main ${ref(this._routerElementRef)}></main> `;
   }
 
   _initializeRouter() {
@@ -69,24 +62,41 @@ export class IngApp extends LitElement {
     this._routerInstance.setRoutes([
       {
         path: '/',
-        component: 'ing-employees',
+        component: 'ing-root-template',
         action: async () => {
-          await import('./components/pages/employees/employees');
+          await import('./components/templates/root-template/root-template');
         },
-      },
-      {
-        path: '/add',
-        component: 'ing-employee-add',
-        action: async () => {
-          await import('./components/pages/employee-add/employee-add');
-        },
-      },
-      {
-        path: '/edit/:employeeId',
-        component: 'ing-employee-edit',
-        action: async () => {
-          await import('./components/pages/employee-edit/employee-edit');
-        },
+        children: [
+          {
+            path: '/',
+            component: 'ing-employees',
+            action: async () => {
+              await import('./components/pages/employees/employees');
+            },
+          },
+          {
+            path: '/add',
+            component: 'ing-employee-add',
+            action: async () => {
+              await import('./components/pages/employee-add/employee-add');
+            },
+          },
+          {
+            // TODO: remove
+            path: '/edit-test',
+            component: 'ing-employee-edit',
+            action: async () => {
+              await import('./components/pages/employee-edit/employee-edit');
+            },
+          },
+          {
+            path: '/edit/:email',
+            component: 'ing-employee-edit',
+            action: async () => {
+              await import('./components/pages/employee-edit/employee-edit');
+            },
+          },
+        ],
       },
     ]);
   }

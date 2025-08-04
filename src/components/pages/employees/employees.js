@@ -1,13 +1,16 @@
 import {LitElement, html, css} from 'lit';
+import {ContextConsumer} from '@lit/context';
 import {appDataStore, translate, Namespaces} from '../../../utilities';
+import {appContext} from '../../../contexts/app.context';
 import {Translatable} from '../../../mixins';
 
 import '../../molecules/pagination';
 import '../../molecules/page-header';
-import '../../organisms/page-layout';
-import '../../templates/employees-table';
+import '../../organisms/employees-table';
 
 export class IngEmployees extends Translatable(LitElement) {
+  _appContext = new ContextConsumer(this, {context: appContext});
+
   /**
    * @type import('lit').PropertyDeclarations
    */
@@ -26,7 +29,10 @@ export class IngEmployees extends Translatable(LitElement) {
   static get styles() {
     return css`
       :host {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        overflow: auto;
         width: clamp(100%, 100%, 100%);
         height: clamp(100%, 100%, 100%);
       }
@@ -34,7 +40,7 @@ export class IngEmployees extends Translatable(LitElement) {
       .page-footer {
         display: flex;
         justify-content: center;
-        padding: var(--ing-size-spacing-medium);
+        padding-top: var(--ing-size-spacing-medium);
       }
     `;
   }
@@ -64,7 +70,7 @@ export class IngEmployees extends Translatable(LitElement) {
 
   render() {
     return html`
-      <ing-page-layout stretch>
+      <ing-surface footerSeparator paddingSize="x-large" gapSize="x-large">
         <ing-page-header
           slot="header"
           title=${translate('title', {ns: Namespaces.EMPLOYEE})}
@@ -76,8 +82,10 @@ export class IngEmployees extends Translatable(LitElement) {
             appDataStore.getState().deleteEmployee(e.detail);
           }}
           @edit=${(e) => {
-            console.log(e.detail);
-            appDataStore.getState().editEmployee(e.detail);
+            this._appContext.value.router.render(
+              `/edit/${e.detail.email}`,
+              true
+            );
           }}
         >
         </ing-employees-table>
@@ -91,7 +99,7 @@ export class IngEmployees extends Translatable(LitElement) {
             }}
           ></ing-pagination>
         </div>
-      </ing-page-layout>
+      </ing-surface>
     `;
   }
 }
