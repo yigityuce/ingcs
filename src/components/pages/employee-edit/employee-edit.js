@@ -8,6 +8,7 @@ import '../../templates/employee-add-edit-template';
 
 export class IngEmployeeEdit extends Translatable(LitElement) {
   _appContext = new ContextConsumer(this, {context: appContext});
+
   /**
    * @type import('lit').PropertyDeclarations
    */

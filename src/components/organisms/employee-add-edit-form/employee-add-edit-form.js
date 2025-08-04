@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit';
 import {live} from 'lit/directives/live.js';
 import {createRef, ref} from 'lit/directives/ref.js';
-import {format} from 'date-fns';
+import {format, parse} from 'date-fns';
 import {Namespaces, translate} from '../../../utilities';
 import {Translatable} from '../../../mixins';
 
@@ -76,8 +76,12 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
       data[key] = formData.get(key);
     }
 
-    data.dateOfEmployment = new Date();
-    data.dateOfBirth = new Date();
+    data.dateOfBirth = parse(data.dateOfBirth, 'yyyy-MM-dd', new Date());
+    data.dateOfEmployment = parse(
+      data.dateOfEmployment,
+      'yyyy-MM-dd',
+      new Date()
+    );
 
     if (form.reportValidity()) {
       this.dispatchEvent(
