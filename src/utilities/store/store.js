@@ -31,14 +31,19 @@ export const appDataStore = createStore(
   persist(
     immer((set) => ({
       employees: createEmployees(750),
+      employeesTableCurrentPage: 1,
+      setEmployeesTableCurrentPage: (page) =>
+        set((state) => {
+          state.employeesTableCurrentPage = page;
+        }),
       reinitEmployees: () =>
         set((state) => {
           state.employees = createEmployees(750);
         }),
-      editEmployee: (employee) =>
+      editEmployee: (email, employee) =>
         set((state) => {
           state.employees = state.employees.map((e) =>
-            e.email === employee.email ? employee : e
+            e.email === email ? employee : e
           );
         }),
       addEmployee: (employee) =>

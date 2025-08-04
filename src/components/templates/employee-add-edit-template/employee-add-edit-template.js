@@ -36,7 +36,6 @@ export class IngEmployeeAddEditTemplate extends Translatable(LitElement) {
   }
 
   willUpdate(changedProperties) {
-    console.log('employee', this.employee);
     if (changedProperties.has('employee')) {
       this._editing = !!this.employee;
     }

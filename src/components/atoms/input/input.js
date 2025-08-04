@@ -63,7 +63,7 @@ export class IngInput extends LitElement {
         outline-color: var(--ing-color-brand);
       }
 
-      .input-element:invalid {
+      .input-element:user-invalid {
         outline-color: var(--ing-color-error-dark);
         outline-width: 2px;
       }
@@ -72,7 +72,7 @@ export class IngInput extends LitElement {
         color: var(--ing-color-brand);
       }
 
-      .input-element:invalid + ing-typography {
+      .input-element:user-invalid + ing-typography {
         color: var(--ing-color-error-dark);
       }
 
@@ -109,6 +109,14 @@ export class IngInput extends LitElement {
     this.options = [];
   }
 
+  willUpdate() {
+    this.internals.setFormValue(this.value);
+  }
+
+  updated() {
+    this._manageValidity();
+  }
+
   firstUpdated(...args) {
     super.firstUpdated(...args);
     /** This ensures our element always participates in the form */
@@ -132,6 +140,9 @@ export class IngInput extends LitElement {
 
   _manageValidity() {
     const {value} = this;
+    /**
+     * @type {HTMLInputElement | HTMLSelectElement}
+     */
     const input = this.shadowRoot.querySelector('.input-element');
     if (value === '' && this.required) {
       this.internals.setValidity(
@@ -140,7 +151,7 @@ export class IngInput extends LitElement {
         input
       );
     } else {
-      const validity = input.reportValidity();
+      const validity = input.checkValidity();
       if (validity) {
         this.internals.setValidity({});
       } else {

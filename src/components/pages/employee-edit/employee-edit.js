@@ -1,10 +1,13 @@
 import {LitElement, html, css} from 'lit';
+import {ContextConsumer} from '@lit/context';
 import {Translatable} from '../../../mixins';
 import {appDataStore} from '../../../utilities';
+import {appContext} from '../../../contexts/app.context';
 
 import '../../templates/employee-add-edit-template';
 
 export class IngEmployeeEdit extends Translatable(LitElement) {
+  _appContext = new ContextConsumer(this, {context: appContext});
   /**
    * @type import('lit').PropertyDeclarations
    */
@@ -49,14 +52,20 @@ export class IngEmployeeEdit extends Translatable(LitElement) {
     }
   }
 
-  firstUpdated() {
-    // TODO: remove
-    this._employee = appDataStore.getState().employees[0];
-  }
-
   render() {
     return html`
-      <ing-employee-add-edit-template .employee=${this._employee}>
+      <ing-employee-add-edit-template
+        .employee=${this._employee}
+        @submit=${(event) => {
+          appDataStore
+            .getState()
+            .editEmployee(this._employee.email, event.detail);
+          this._appContext.value.router.render(`/`, true);
+        }}
+        @cancel=${() => {
+          this._appContext.value.router.render(`/`, true);
+        }}
+      >
       </ing-employee-add-edit-template>
     `;
   }

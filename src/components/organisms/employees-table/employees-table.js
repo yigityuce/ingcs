@@ -142,7 +142,9 @@ export class IngEmployeesTable extends Translatable(LitElement) {
               )}
             </ing-typography>
             <ing-typography class="cell">
-              ${maskitoTransform(employee.phoneNumber, {mask: MASK_PHONE})}
+              ${maskitoTransform(employee?.phoneNumber || '', {
+                mask: MASK_PHONE,
+              })}
             </ing-typography>
             <ing-typography class="cell"> ${employee.email} </ing-typography>
             <ing-typography class="cell">

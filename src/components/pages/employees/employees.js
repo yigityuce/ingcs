@@ -48,10 +48,11 @@ export class IngEmployees extends Translatable(LitElement) {
   constructor() {
     super();
     this._employees = appDataStore.getState().employees || [];
-    this._currentPage = 1;
+    this._currentPage = appDataStore.getState().employeesTableCurrentPage || 1;
     this._pageSize = 10; // Default page size, can be adjusted as needed
     appDataStore.subscribe((state) => {
       this._employees = state.employees || [];
+      this._currentPage = state.employeesTableCurrentPage;
     });
   }
 
@@ -65,6 +66,8 @@ export class IngEmployees extends Translatable(LitElement) {
         (this._currentPage - 1) * this._pageSize,
         this._currentPage * this._pageSize
       );
+
+      appDataStore.getState().setEmployeesTableCurrentPage(this._currentPage);
     }
   }
 

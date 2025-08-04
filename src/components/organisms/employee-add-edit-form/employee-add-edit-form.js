@@ -1,5 +1,6 @@
 import {LitElement, html, css} from 'lit';
 import {live} from 'lit/directives/live.js';
+import {createRef, ref} from 'lit/directives/ref.js';
 import {format} from 'date-fns';
 import {Namespaces, translate} from '../../../utilities';
 import {Translatable} from '../../../mixins';
@@ -9,8 +10,14 @@ import '../../atoms/icon-button';
 import '../../atoms/icons';
 import '../../atoms/surface';
 import '../../atoms/input';
+import '../../atoms/button';
 
 export class IngEmployeeAddEditForm extends Translatable(LitElement) {
+  /**
+   * @type {import('lit/directives/ref.js').Ref<HTMLFormElement>}
+   */
+  _formRef = createRef();
+
   /**
    * @type import('lit').PropertyDeclarations
    */
@@ -42,23 +49,54 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
         row-gap: calc(3 * var(--ing-size-gap-x-large));
         align-content: flex-start;
       }
+
+      .form-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--ing-size-spacing-x-large);
+        gap: var(--ing-size-gap-x-large);
+      }
+
+      .action-button {
+        min-width: 25%;
+      }
     `;
+  }
+
+  _submitForm() {
+    /**
+     * @type {HTMLFormElement}
+     */
+    const form = this._formRef.value;
+    const formData = new FormData(form);
+    const data = {};
+    for (const key of formData.keys()) {
+      data[key] = formData.get(key);
+    }
+
+    data.dateOfEmployment = new Date();
+    data.dateOfBirth = new Date();
+
+    if (form.reportValidity()) {
+      this.dispatchEvent(
+        new CustomEvent('submit', {
+          detail: data,
+          bubbles: true,
+          composed: true,
+        })
+      );
+    }
   }
 
   render() {
     return html`
       <form
         class="employee-form"
+        ${ref(this._formRef)}
         @submit=${(event) => {
           event.preventDefault();
-          const form = event.target;
-          const formData = new FormData(form);
-          const data = {};
-          for (const key of formData.keys()) {
-            data[key] = formData.get(key);
-          }
-
-          console.log('Form data:', data);
         }}
       >
         <ing-input
@@ -120,7 +158,7 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
         >
         </ing-input>
         <ing-input
-          name="phone"
+          name="phoneNumber"
           type="text"
           label=${translate('fields.phone.label', {
             ns: Namespaces.EMPLOYEE,
@@ -205,6 +243,31 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
           ]}
         >
         </ing-input>
+        <div class="form-actions">
+          <ing-button
+            variant="contained"
+            color="primary"
+            class="action-button"
+            @click=${this._submitForm}
+          >
+            ${translate('save', {ns: Namespaces.COMMON})}
+          </ing-button>
+          <ing-button
+            variant="outlined"
+            color="secondary"
+            class="action-button"
+            @click=${() => {
+              this.dispatchEvent(
+                new CustomEvent('cancel', {
+                  bubbles: true,
+                  composed: true,
+                })
+              );
+            }}
+          >
+            ${translate('cancel', {ns: Namespaces.COMMON})}
+          </ing-button>
+        </div>
       </form>
     `;
   }
