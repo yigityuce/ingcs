@@ -27,14 +27,31 @@
     },
     "department": {
       "label": "Department",
-      "placeholder": "Select department"
+      "placeholder": "Select department",
+      "analytics": "Analytics",
+      "tech": "Tech"
     },
     "position": {
       "label": "Position",
-      "placeholder": "Select position"
+      "placeholder": "Select position",
+      "junior": "Junior",
+      "medior": "Medior",
+      "senior": "Senior"
     },
     "actions": {
       "label": "Actions"
     }
+  },
+  "edit": {
+    "title": "Edit Employee",
+    "subtitle": "Your are editing {{name}}"
+  },
+  "add": {
+    "title": "Add Employee",
+    "subtitle": ""
+  },
+  "delete": {
+    "title": "Are you sure?",
+    "message": "Selected employee record of {{name}} will be deleted."
   }
 }

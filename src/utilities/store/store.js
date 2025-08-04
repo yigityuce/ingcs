@@ -2,6 +2,7 @@ import {createStore} from 'zustand/vanilla';
 import {faker} from '@faker-js/faker';
 import {immer} from 'zustand/middleware/immer';
 import {createJSONStorage, persist} from 'zustand/middleware';
+import {LANGUAGES} from '../../models/language';
 
 /**
  * @param {number} count
@@ -32,6 +33,11 @@ export const appDataStore = createStore(
     immer((set) => ({
       employees: createEmployees(750),
       employeesTableCurrentPage: 1,
+      language: LANGUAGES.EN,
+      setLanguage: (language) =>
+        set((state) => {
+          state.language = language;
+        }),
       setEmployeesTableCurrentPage: (page) =>
         set((state) => {
           state.employeesTableCurrentPage = page;

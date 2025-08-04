@@ -2,12 +2,12 @@
   "title": "Çalışan Listesi",
   "fields": {
     "firstName": {
-      "label": "İsim",
-      "placeholder": "İsim girin"
+      "label": "Ad",
+      "placeholder": "Ad girin"
     },
     "lastName": {
-      "label": "Soyisim",
-      "placeholder": "Soyisim girin"
+      "label": "Soyad",
+      "placeholder": "Soyad girin"
     },
     "email": {
       "label": "E-posta",
@@ -22,19 +22,36 @@
       "placeholder": "Doğum tarihini seçin"
     },
     "dateOfEmployment": {
-      "label": "İşe Başlangıç Tarihi",
-      "placeholder": "İşe başlangıç tarihini seçin"
+      "label": "İşe Giriş Tarihi",
+      "placeholder": "İşe giriş tarihini seçin"
     },
     "department": {
       "label": "Departman",
-      "placeholder": "Departman seçin"
+      "placeholder": "Departman seçin",
+      "analytics": "Analitik",
+      "tech": "Teknoloji"
     },
     "position": {
       "label": "Pozisyon",
-      "placeholder": "Pozisyon seçin"
+      "placeholder": "Pozisyon seçin",
+      "junior": "Junior",
+      "medior": "Medior",
+      "senior": "Senior"
     },
     "actions": {
       "label": "İşlemler"
     }
+  },
+  "edit": {
+    "title": "Çalışanı Düzenle",
+    "subtitle": "{{name}} kişisini düzenliyorsunuz"
+  },
+  "add": {
+    "title": "Çalışan Ekle",
+    "subtitle": ""
+  },
+  "delete": {
+    "title": "Emin misiniz?",
+    "message": "{{name}} kişisine ait çalışan kaydı silinecek."
   }
 }

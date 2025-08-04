@@ -1,4 +1,6 @@
 export * from './filled-trash';
+export * from './flag-en-us';
+export * from './flag-tr-tr';
 export * from './outlined-add';
 export * from './outlined-chevron-left';
 export * from './outlined-edit-square';

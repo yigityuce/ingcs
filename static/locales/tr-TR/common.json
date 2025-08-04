@@ -1,1 +1,11 @@
-{}
+{
+  "save": "Kaydet",
+  "cancel": "İptal",
+  "edit": "Düzenle",
+  "delete": "Sil",
+  "proceed": "Devam Et",
+  "navigationBar": {
+    "employeesButton": "Çalışan Listesi",
+    "addNewButton": "Yeni Ekle"
+  }
+}

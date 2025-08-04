@@ -3,6 +3,8 @@ import {createRef, ref} from 'lit/directives/ref.js';
 import {ContextProvider} from '@lit/context';
 import {Router} from '@vaadin/router';
 import {appContext} from './contexts/app.context';
+import {appDataStore, i18n} from './utilities';
+import {DEFAULT_LANGUAGE} from './models';
 
 export class IngApp extends LitElement {
   /**
@@ -45,6 +47,16 @@ export class IngApp extends LitElement {
         max-width: 100%;
       }
     `;
+  }
+
+  constructor() {
+    super();
+    i18n.changeLanguage(
+      appDataStore.getState().language || DEFAULT_LANGUAGE.code
+    );
+    appDataStore.subscribe((state) => {
+      i18n.changeLanguage(state.language || DEFAULT_LANGUAGE.code);
+    });
   }
 
   firstUpdated() {
