@@ -1,12 +1,17 @@
 import {LitElement, html, css} from 'lit';
+import {Translatable} from '../../../mixins';
+import {appDataStore} from '../../../utilities';
 
-export class IngEmployeeEdit extends LitElement {
+import '../../templates/employee-add-edit-template';
+
+export class IngEmployeeEdit extends Translatable(LitElement) {
   /**
    * @type import('lit').PropertyDeclarations
    */
   static get properties() {
     return {
-      employeeId: {type: String, reflect: true},
+      _email: {type: String, attribute: false, state: true},
+      _employee: {type: Object, attribute: false, state: true},
     };
   }
 
@@ -16,16 +21,12 @@ export class IngEmployeeEdit extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
-        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--ing-size-gap-x-large);
+        width: clamp(100%, 100%, 100%);
+        height: clamp(100%, 100%, 100%);
       }
-    `;
-  }
-
-  render() {
-    return html`
-      <h1>Employee Edit</h1>
-      <p>Editing: ${this.employeeId}</p>
     `;
   }
 
@@ -36,13 +37,28 @@ export class IngEmployeeEdit extends LitElement {
    * @param {import('@vaadin/router').Router} router
    */
   onAfterEnter(location) {
-    // Extract employeeId from the route parameters
-    const {employeeId} = location.params;
-    this.employeeId = employeeId;
+    // Extract email from the route parameters
+    this._email = location.params?.email;
+  }
 
-    // You can add logic here to fetch employee data based on employeeId
-    // For example, you might want to call an API to get the employee details
-    console.log(`Editing employee with ID: ${this.employeeId}`);
+  willUpdate(changedProperties) {
+    if (changedProperties.has('_email')) {
+      this._employee = (appDataStore.getState().employees || []).find(
+        (employee) => employee.email === this._email
+      );
+    }
+  }
+
+  firstUpdated() {
+    // TODO: remove
+    this._employee = appDataStore.getState().employees[0];
+  }
+
+  render() {
+    return html`
+      <ing-employee-add-edit-template .employee=${this._employee}>
+      </ing-employee-add-edit-template>
+    `;
   }
 }
 

@@ -1,5 +1,7 @@
 import {LitElement, html, css} from 'lit';
 
+import '../../templates/employee-add-edit-template';
+
 export class IngEmployeeAdd extends LitElement {
   /**
    * @type import('lit').PropertyDeclarations
@@ -14,16 +16,18 @@ export class IngEmployeeAdd extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
-        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--ing-size-gap-x-large);
+        width: clamp(100%, 100%, 100%);
+        height: clamp(100%, 100%, 100%);
       }
     `;
   }
 
   render() {
     return html`
-      <h1>Employee Add</h1>
-      <p>This is the employees page content.</p>
+      <ing-employee-add-edit-template> </ing-employee-add-edit-template>
     `;
   }
 }
