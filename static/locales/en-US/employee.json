@@ -1,0 +1,40 @@
+{
+  "title": "Employee List",
+  "fields": {
+    "firstName": {
+      "label": "First Name",
+      "placeholder": "Enter first name"
+    },
+    "lastName": {
+      "label": "Last Name",
+      "placeholder": "Enter last name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter email"
+    },
+    "phone": {
+      "label": "Phone",
+      "placeholder": "Enter phone number"
+    },
+    "dateOfBirth": {
+      "label": "Date of Birth",
+      "placeholder": "Select date of birth"
+    },
+    "dateOfEmployment": {
+      "label": "Date of Employment",
+      "placeholder": "Select date of employment"
+    },
+    "department": {
+      "label": "Department",
+      "placeholder": "Select department"
+    },
+    "position": {
+      "label": "Position",
+      "placeholder": "Select position"
+    },
+    "actions": {
+      "label": "Actions"
+    }
+  }
+}

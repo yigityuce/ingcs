@@ -1,13 +1,19 @@
 import {LitElement, html, css} from 'lit';
 import {repeat} from 'lit/directives/repeat.js';
 import {maskitoTransform} from '@maskito/core';
-import {formatDate, MASK_PHONE} from '../../../utilities';
+import {
+  formatDate,
+  MASK_PHONE,
+  Namespaces,
+  translate,
+} from '../../../utilities';
+import {Translatable} from '../../../mixins';
 
 import '../../atoms/typography';
 import '../../atoms/icon-button';
 import '../../atoms/icons';
 
-export class IngEmployeesTable extends LitElement {
+export class IngEmployeesTable extends Translatable(LitElement) {
   /**
    * @type import('lit').PropertyDeclarations
    */
@@ -70,31 +76,33 @@ export class IngEmployeesTable extends LitElement {
       <div class="row table-header">
         <div class="cell"><input type="checkbox" /></div>
         <ing-typography class="cell" color="secondary" strong>
-          First Name
+          ${translate('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Last Name
+          ${translate('fields.lastName.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Date of Employment
+          ${translate('fields.dateOfEmployment.label', {
+            ns: Namespaces.EMPLOYEE,
+          })}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Date of Birth
+          ${translate('fields.dateOfBirth.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Phone
+          ${translate('fields.phone.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Email
+          ${translate('fields.email.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Department
+          ${translate('fields.department.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Position
+          ${translate('fields.position.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
         <ing-typography class="cell" color="secondary" strong>
-          Actions
+          ${translate('fields.actions.label', {ns: Namespaces.EMPLOYEE})}
         </ing-typography>
       </div>
       ${repeat(

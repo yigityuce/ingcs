@@ -1,12 +1,13 @@
 import {LitElement, html, css} from 'lit';
-import {appDataStore} from '../../../utilities';
+import {appDataStore, translate, Namespaces} from '../../../utilities';
+import {Translatable} from '../../../mixins';
 
 import '../../molecules/pagination';
 import '../../molecules/page-header';
 import '../../organisms/page-layout';
 import '../../templates/employees-table';
 
-export class IngEmployees extends LitElement {
+export class IngEmployees extends Translatable(LitElement) {
   /**
    * @type import('lit').PropertyDeclarations
    */
@@ -64,7 +65,11 @@ export class IngEmployees extends LitElement {
   render() {
     return html`
       <ing-page-layout stretch>
-        <ing-page-header slot="header" title="Employee List"> </ing-page-header>
+        <ing-page-header
+          slot="header"
+          title=${translate('title', {ns: Namespaces.EMPLOYEE})}
+        >
+        </ing-page-header>
         <ing-employees-table
           .employees=${this._filteredEmployees}
           @delete=${(e) => {

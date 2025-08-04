@@ -44,6 +44,8 @@
     "@vaadin/router": "^2.0.0",
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
+    "i18next": "^25.3.2",
+    "i18next-http-backend": "^3.0.2",
     "immer": "^10.1.1",
     "lit": "^3.2.0",
     "normalize.css": "^8.0.1",

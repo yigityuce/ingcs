@@ -1,0 +1,40 @@
+{
+  "title": "Çalışan Listesi",
+  "fields": {
+    "firstName": {
+      "label": "İsim",
+      "placeholder": "İsim girin"
+    },
+    "lastName": {
+      "label": "Soyisim",
+      "placeholder": "Soyisim girin"
+    },
+    "email": {
+      "label": "E-posta",
+      "placeholder": "E-posta girin"
+    },
+    "phone": {
+      "label": "Telefon",
+      "placeholder": "Telefon numarası girin"
+    },
+    "dateOfBirth": {
+      "label": "Doğum Tarihi",
+      "placeholder": "Doğum tarihini seçin"
+    },
+    "dateOfEmployment": {
+      "label": "İşe Başlangıç Tarihi",
+      "placeholder": "İşe başlangıç tarihini seçin"
+    },
+    "department": {
+      "label": "Departman",
+      "placeholder": "Departman seçin"
+    },
+    "position": {
+      "label": "Pozisyon",
+      "placeholder": "Pozisyon seçin"
+    },
+    "actions": {
+      "label": "İşlemler"
+    }
+  }
+}
