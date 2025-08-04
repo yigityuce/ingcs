@@ -27,6 +27,7 @@ export class IngButton extends LitElement {
         height: fit-content;
         min-height: 2rem;
         cursor: pointer;
+        white-space: nowrap;
         gap: var(--ing-size-gap-medium);
         border-radius: var(--ing-size-radius-small);
         position: relative;
@@ -43,6 +44,7 @@ export class IngButton extends LitElement {
         border: inherit;
         border-radius: inherit;
         cursor: inherit;
+        white-space: inherit;
         padding: var(--ing-size-spacing-small);
       }
 
