@@ -82,14 +82,6 @@ export class IngApp extends LitElement {
             },
           },
           {
-            // TODO: remove
-            path: '/edit-test',
-            component: 'ing-employee-edit',
-            action: async () => {
-              await import('./components/pages/employee-edit/employee-edit');
-            },
-          },
-          {
             path: '/edit/:email',
             component: 'ing-employee-edit',
             action: async () => {
