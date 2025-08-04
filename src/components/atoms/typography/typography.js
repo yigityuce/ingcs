@@ -7,7 +7,7 @@ export class IngTypography extends LitElement {
   static get properties() {
     return {
       variant: {type: String, reflect: true}, // type: 'title1', 'title2', 'title3', 'title4', 'title5', 'title6', 'body1', 'body2', 'caption'
-      color: {type: String, reflect: true}, // type: 'primary', 'secondary', 'error', 'warning', 'success'
+      color: {type: String, reflect: true}, // type: 'primary', 'secondary', 'error', 'warning', 'success', 'disabled', 'inherit'
       strong: {type: Boolean, reflect: true},
       emphasized: {type: Boolean, reflect: true},
     };
@@ -101,6 +101,9 @@ export class IngTypography extends LitElement {
       }
       :host([color='success']) {
         color: var(--ing-color-success-main);
+      }
+      :host([color='disabled']) {
+        color: var(--ing-color-text-disabled);
       }
     `;
   }

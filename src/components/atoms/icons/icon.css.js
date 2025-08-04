@@ -17,6 +17,11 @@ export const iconStyles = css`
     fill: var(--ing-color-text-secondary);
     --fill-color: var(--ing-color-text-secondary);
   }
+  :host([color='tertiary']) {
+    color: var(--ing-color-white);
+    fill: var(--ing-color-white);
+    --fill-color: var(--ing-color-white);
+  }
   :host([color='error']) {
     color: var(--ing-color-error-main);
     fill: var(--ing-color-error-main);

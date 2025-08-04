@@ -32,7 +32,7 @@ export class IngIconButton extends LitElement {
         pointer-events: none;
       }
       :host(:not([disabled]):hover) {
-        background-color: var(--ing-color-grey-100);
+        background-color: var(--ing-color-grey-200);
       }
     `;
   }

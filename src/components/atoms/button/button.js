@@ -30,7 +30,7 @@ export class IngButton extends LitElement {
         cursor: pointer;
         white-space: nowrap;
         gap: var(--ing-size-gap-medium);
-        border-radius: var(--ing-size-radius-small);
+        border-radius: var(--ing-size-radius-medium);
         position: relative;
       }
 

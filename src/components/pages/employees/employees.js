@@ -7,9 +7,13 @@ import {Translatable} from '../../../mixins';
 import '../../atoms/dialog';
 import '../../atoms/typography';
 import '../../atoms/button';
+import '../../atoms/icons';
+import '../../atoms/icon-button';
 import '../../molecules/pagination';
 import '../../molecules/page-header';
 import '../../organisms/employees-table';
+import '../../organisms/employees-grid';
+import {choose} from 'lit/directives/choose.js';
 
 export class IngEmployees extends Translatable(LitElement) {
   _appContext = new ContextConsumer(this, {context: appContext});
@@ -24,6 +28,7 @@ export class IngEmployees extends Translatable(LitElement) {
       _deletingEmployee: {type: Object, state: true},
       _currentPage: {type: Number, state: true},
       _pageSize: {type: Number, state: true},
+      _viewMode: {type: String, state: true}, // 'table' or 'grid'
     };
   }
 
@@ -46,6 +51,13 @@ export class IngEmployees extends Translatable(LitElement) {
         justify-content: center;
         padding-top: var(--ing-size-spacing-medium);
       }
+
+      .view-selector {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: var(--ing-size-gap-x-small);
+      }
     `;
   }
 
@@ -54,6 +66,7 @@ export class IngEmployees extends Translatable(LitElement) {
     this._employees = appDataStore.getState().employees || [];
     this._currentPage = appDataStore.getState().employeesTableCurrentPage || 1;
     this._pageSize = 10; // Default page size, can be adjusted as needed
+    this._viewMode = 'table';
     appDataStore.subscribe((state) => {
       this._employees = state.employees || [];
       this._currentPage = state.employeesTableCurrentPage;
@@ -82,22 +95,58 @@ export class IngEmployees extends Translatable(LitElement) {
           slot="header"
           title=${translate('title', {ns: Namespaces.EMPLOYEE})}
         >
+        <div class="view-selector">
+            <ing-icon-button @click=${() => (this._viewMode = 'table')}>
+                <ing-icon-outlined-list color=${
+                  this._viewMode === 'table' ? 'secondary' : 'disabled'
+                } size="large" /></ing-icon-outlined-list>
+            </ing-icon-button>
+
+            <ing-icon-button @click=${() => (this._viewMode = 'grid')}>
+                <ing-icon-outlined-grid color=${
+                  this._viewMode === 'grid' ? 'secondary' : 'disabled'
+                } size="large" /></ing-icon-outlined-grid>
+            </ing-icon-button>
+        </div>
         </ing-page-header>
-        <ing-employees-table
-          .employees=${this._filteredEmployees}
-          @delete=${(e) => {
-            this._deletingEmployee = e.detail;
-          }}
-          @edit=${(e) => {
-            this._appContext.value.router.render(
-              `/edit/${e.detail.email}`,
-              true
-            );
-          }}
-        >
-        </ing-employees-table>
+        ${choose(this._viewMode, [
+          [
+            'table',
+            () => html`<ing-employees-table
+              .employees=${this._filteredEmployees}
+              @delete=${(e) => {
+                this._deletingEmployee = e.detail;
+              }}
+              @edit=${(e) => {
+                this._appContext.value.router.render(
+                  `/edit/${e.detail.email}`,
+                  true
+                );
+              }}
+            >
+            </ing-employees-table>`,
+          ],
+          [
+            'grid',
+            () => html`<ing-employees-grid
+              .employees=${this._filteredEmployees}
+              @delete=${(e) => {
+                this._deletingEmployee = e.detail;
+              }}
+              @edit=${(e) => {
+                this._appContext.value.router.render(
+                  `/edit/${e.detail.email}`,
+                  true
+                );
+              }}
+            >
+            </ing-employees-grid>`,
+          ],
+        ])}
+        
         <ing-dialog
           ?open=${!!this._deletingEmployee}
+          size="auto"
           @close=${() => (this._deletingEmployee = undefined)}
         >
           <div slot="header">

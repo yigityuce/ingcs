@@ -68,6 +68,7 @@
   --ing-size-gap-medium: 0.5rem;
   --ing-size-gap-large: 0.75rem;
   --ing-size-gap-x-large: 1rem;
+  --ing-size-gap-2x-large: 2rem;
 
   /* BASE TOKENS > SIZE > RADIUS */
   --ing-size-radius-x-small: 0.125rem;
@@ -83,6 +84,7 @@
   /* SEMANTIC TOKENS > COLOR > TEXT */
   --ing-color-text-primary: var(--ing-color-grey-900);
   --ing-color-text-secondary: var(--ing-color-brand);
+  --ing-color-text-disabled: var(--ing-color-grey-500);
 
   /* SEMANTIC TOKENS > COLOR > STATUS */
   --ing-color-error-main: var(--ing-color-red-500);
