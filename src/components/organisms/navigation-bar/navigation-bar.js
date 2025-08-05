@@ -29,19 +29,32 @@ export class IngNavigationBar extends Translatable(LitElement) {
   static get styles() {
     return css`
       :host {
-        display: grid;
-        grid-template-columns: min-content min-content auto min-content;
-        grid-template-areas: 'logo title empty menu';
-        gap: var(--ing-size-gap-x-large);
-        background-color: var(--ing-color-background-surface);
-        padding: var(--ing-size-spacing-small);
-        align-items: center;
-      }
-      .links-menu {
-        grid-area: menu;
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
+        gap: var(--ing-size-gap-x-large);
+        background-color: var(--ing-color-background-surface);
+        padding: var(--ing-size-spacing-small);
+
+        @media screen and (max-width: 600px) {
+          flex-direction: column;
+        }
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-self: flex-start;
+        gap: var(--ing-size-gap-x-large);
+      }
+
+      .links-menu {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-self: flex-end;
         gap: var(--ing-size-gap-small);
       }
     `;
@@ -56,11 +69,12 @@ export class IngNavigationBar extends Translatable(LitElement) {
 
   render() {
     return html`
-      <ing-logo style="grid-area: logo;" size="small"></ing-logo>
-      <ing-typography style="grid-area: title;" variant="title5">
-        ING
-      </ing-typography>
-      <div></div>
+      <div class="brand">
+        <ing-logo style="grid-area: logo;" size="small"></ing-logo>
+        <ing-typography style="grid-area: title;" variant="title5">
+          ING
+        </ing-typography>
+      </div>
       <div class="links-menu">
         <ing-button
           variant="text"

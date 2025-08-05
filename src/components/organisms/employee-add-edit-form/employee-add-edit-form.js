@@ -48,15 +48,35 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
         column-gap: calc(3 * var(--ing-size-gap-x-large));
         row-gap: calc(3 * var(--ing-size-gap-x-large));
         align-content: flex-start;
+
+        @media screen and (max-width: 600px) {
+          grid-template-columns: repeat(1, 1fr);
+          gap: calc(1 * var(--ing-size-gap-x-large));
+        }
+
+        @media screen and (min-width: 601px) and (max-width: 1024px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
 
       .form-actions {
         grid-column: 1 / -1;
         display: flex;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        padding: var(--ing-size-spacing-x-large);
+        padding: var(--ing-size-spacing-x-large) 0;
         gap: var(--ing-size-gap-x-large);
+        width: 50%;
+        margin: 0 auto;
+
+        @media screen and (max-width: 600px) {
+          flex-direction: column;
+          width: 100%;
+        }
+        @media screen and (min-width: 601px) and (max-width: 1024px) {
+          width: 100%;
+        }
       }
 
       .action-button {
@@ -252,6 +272,7 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
             variant="contained"
             color="primary"
             class="action-button"
+            fullWidth
             @click=${this._submitForm}
           >
             ${translate('save', {ns: Namespaces.COMMON})}
@@ -260,6 +281,7 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
             variant="outlined"
             color="secondary"
             class="action-button"
+            fullWidth
             @click=${() => {
               this.dispatchEvent(
                 new CustomEvent('cancel', {

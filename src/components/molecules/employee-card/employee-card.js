@@ -50,6 +50,12 @@ export class IngEmployeeCard extends Translatable(LitElement) {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--ing-size-gap-2x-large);
         overflow: visible;
+
+        @media screen and (max-width: 600px) {
+          grid-template-columns: 1fr;
+          column-gap: var(--ing-size-gap-medium);
+          row-gap: var(--ing-size-gap-medium);
+        }
       }
 
       .section {
@@ -63,6 +69,10 @@ export class IngEmployeeCard extends Translatable(LitElement) {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: var(--ing-size-gap-large);
+
+        @media screen and (max-width: 600px) {
+          grid-template-columns: 1fr;
+        }
       }
     `;
   }

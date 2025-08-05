@@ -28,6 +28,18 @@ export class IngEmployeesGrid extends Translatable(LitElement) {
         grid-template-columns: repeat(2, 1fr);
         column-gap: var(--ing-size-gap-2x-large);
         row-gap: var(--ing-size-gap-x-large);
+
+        @media screen and (max-width: 600px) {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        @media screen and (min-width: 601px) and (max-width: 1024px) {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
       }
     `;
   }

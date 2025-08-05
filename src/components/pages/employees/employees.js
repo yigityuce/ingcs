@@ -192,7 +192,7 @@ export class IngEmployees extends Translatable(LitElement) {
           <ing-pagination
             .currentPage=${this._currentPage}
             .totalPages=${Math.ceil(this._employees.length / this._pageSize)}
-            .visiblePageCountAroundCurrent=${2}
+            .visiblePageCountAroundCurrent=${1}
             @page-change=${(e) => {
               this._currentPage = e.detail;
             }}

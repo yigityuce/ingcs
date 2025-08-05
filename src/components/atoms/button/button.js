@@ -40,6 +40,7 @@ export class IngButton extends LitElement {
 
       button {
         all: unset;
+        box-sizing: border-box;
         display: flex;
         background-color: inherit;
         color: inherit;

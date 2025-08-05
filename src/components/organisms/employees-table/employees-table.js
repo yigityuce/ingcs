@@ -121,36 +121,40 @@ export class IngEmployeesTable extends Translatable(LitElement) {
             <div class="cell">
               <input type="checkbox" />
             </div>
-            <ing-typography class="cell" strong>
+            <ing-typography class="cell" strong noWrap>
               ${employee.firstName}
             </ing-typography>
-            <ing-typography class="cell" strong> 
+            <ing-typography class="cell" strong noWrap> 
             ${employee.lastName} 
         </ing-typography>
-            <ing-typography class="cell">
+            <ing-typography class="cell" noWrap>
               ${formatDate(
                 typeof employee.dateOfEmployment === 'string'
                   ? new Date(employee.dateOfEmployment)
                   : employee.dateOfEmployment
               )}
             </ing-typography>
-            <ing-typography class="cell">
+            <ing-typography class="cell" noWrap>
               ${formatDate(
                 typeof employee.dateOfBirth === 'string'
                   ? new Date(employee.dateOfBirth)
                   : employee.dateOfBirth
               )}
             </ing-typography>
-            <ing-typography class="cell">
+            <ing-typography class="cell" noWrap>
               ${maskitoTransform(employee?.phoneNumber || '', {
                 mask: MASK_PHONE,
               })}
             </ing-typography>
-            <ing-typography class="cell"> ${employee.email} </ing-typography>
-            <ing-typography class="cell">
+            <ing-typography class="cell" noWrap> ${
+              employee.email
+            } </ing-typography>
+            <ing-typography class="cell" noWrap>
               ${employee.department}
             </ing-typography>
-            <ing-typography class="cell"> ${employee.position} </ing-typography>
+            <ing-typography class="cell" noWrap> ${
+              employee.position
+            } </ing-typography>
             <div class="cell">
                 <div class="actions">
                     <ing-icon-button @click=${() =>

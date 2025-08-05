@@ -10,6 +10,7 @@ export class IngTypography extends LitElement {
       color: {type: String, reflect: true}, // type: 'primary', 'secondary', 'error', 'warning', 'success', 'disabled', 'inherit'
       strong: {type: Boolean, reflect: true},
       emphasized: {type: Boolean, reflect: true},
+      noWrap: {type: Boolean, reflect: true}, // Prevents text from wrapping
     };
   }
 
@@ -26,6 +27,10 @@ export class IngTypography extends LitElement {
 
       :host(:focus-visible) {
         outline: none;
+      }
+
+      :host([noWrap]) {
+        white-space: nowrap;
       }
 
       /* VARIANT styles */
