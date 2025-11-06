@@ -1,12 +1,11 @@
 import {LitElement, html, css} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {maskitoTransform} from '@maskito/core';
-import {Translatable} from '../../../mixins';
 import {
   formatDate,
   MASK_PHONE,
   Namespaces,
-  translate,
+  Translatable,
 } from '../../../utilities';
 
 import '../../atoms/typography';
@@ -15,18 +14,14 @@ import '../../atoms/button';
 import '../../atoms/icons';
 
 export class IngEmployeeCard extends Translatable(LitElement) {
-  /**
-   * @type import('lit').PropertyDeclarations
-   */
+  /** @type import('lit').PropertyDeclarations */
   static get properties() {
     return {
       employee: {type: Object, attribute: false},
     };
   }
 
-  /**
-   * @type import('lit').CSSResultGroup
-   */
+  /** @type import('lit').CSSResultGroup */
   static get styles() {
     return css`
       :host {
@@ -88,7 +83,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
         <div class="content">
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography color="primary" strong>
               ${ifDefined(this.employee?.firstName)}
@@ -97,7 +92,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
 
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.lastName.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.lastName.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography color="primary" strong>
               ${ifDefined(this.employee?.lastName)}
@@ -106,7 +101,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
 
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.dateOfEmployment.label', {
+              ${this.t('fields.dateOfEmployment.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
@@ -121,7 +116,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
 
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.dateOfBirth.label', {
+              ${this.t('fields.dateOfBirth.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
@@ -136,7 +131,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
 
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.phone.label', {
+              ${this.t('fields.phone.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
@@ -149,7 +144,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
 
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.email.label', {
+              ${this.t('fields.email.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
@@ -160,7 +155,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
 
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.department.label', {
+              ${this.t('fields.department.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
@@ -171,7 +166,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
 
           <div class="section">
             <ing-typography color="disabled" variant="body2">
-              ${translate('fields.position.label', {
+              ${this.t('fields.position.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
@@ -198,7 +193,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
               slot="prefix"
               color="tertiary"
             ></ing-icon-outlined-edit-square>
-            ${translate('edit', {ns: Namespaces.COMMON})}
+            ${this.t('edit', {ns: Namespaces.COMMON})}
           </ing-button>
           <ing-button
             variant="contained"
@@ -217,7 +212,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
               slot="prefix"
               color="tertiary"
             ></ing-icon-filled-trash>
-            ${translate('delete', {ns: Namespaces.COMMON})}
+            ${this.t('delete', {ns: Namespaces.COMMON})}
           </ing-button>
         </div>
       </ing-surface>

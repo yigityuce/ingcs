@@ -5,9 +5,8 @@ import {
   formatDate,
   MASK_PHONE,
   Namespaces,
-  translate,
+  Translatable,
 } from '../../../utilities';
-import {Translatable} from '../../../mixins';
 
 import '../../atoms/typography';
 import '../../atoms/icon-button';
@@ -15,18 +14,14 @@ import '../../atoms/icons';
 import '../../atoms/surface';
 
 export class IngEmployeesTable extends Translatable(LitElement) {
-  /**
-   * @type import('lit').PropertyDeclarations
-   */
+  /** @type import('lit').PropertyDeclarations */
   static get properties() {
     return {
       employees: {type: Array}, // type { email: string, firstName: string, lastName: string, dateOfEmployment: Date, dateOfBirth: Date, phoneNumber: string, department: 'Analytics' | 'Tech', position: 'Junior' | 'Medior' | 'Senior', }
     };
   }
 
-  /**
-   * @type import('lit').CSSResultGroup
-   */
+  /** @type import('lit').CSSResultGroup */
   static get styles() {
     return css`
       :host {
@@ -82,35 +77,35 @@ export class IngEmployeesTable extends Translatable(LitElement) {
           <div class="row table-header">
             <div class="cell"><input type="checkbox" /></div>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.lastName.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.lastName.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.dateOfEmployment.label', {
+              ${this.t('fields.dateOfEmployment.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.dateOfBirth.label', {
+              ${this.t('fields.dateOfBirth.label', {
                 ns: Namespaces.EMPLOYEE,
               })}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.phone.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.phone.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.email.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.email.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.department.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.department.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.position.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.position.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
             <ing-typography class="cell" color="secondary" strong>
-              ${translate('fields.actions.label', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('fields.actions.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
           </div>
           ${repeat(

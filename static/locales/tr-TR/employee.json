@@ -43,12 +43,10 @@
     }
   },
   "edit": {
-    "title": "Çalışanı Düzenle",
-    "subtitle": "{{name}} kişisini düzenliyorsunuz"
+    "title": "Çalışanı Düzenle - {{name}}"
   },
   "add": {
-    "title": "Çalışan Ekle",
-    "subtitle": ""
+    "title": "Çalışan Ekle"
   },
   "delete": {
     "title": "Emin misiniz?",

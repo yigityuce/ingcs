@@ -1,27 +1,23 @@
 import {LitElement, html, css} from 'lit';
 import {ContextConsumer} from '@lit/context';
-import {Translatable} from '../../../mixins';
-import {appDataStore} from '../../../utilities';
+import {guard} from 'lit/directives/guard.js';
+import {StoreConnector, Translatable} from '../../../utilities';
 import {appContext} from '../../../contexts/app.context';
 
 import '../../templates/employee-add-edit-template';
 
-export class IngEmployeeEdit extends Translatable(LitElement) {
+export class IngEmployeeEdit extends StoreConnector(Translatable(LitElement)) {
   _appContext = new ContextConsumer(this, {context: appContext});
 
-  /**
-   * @type import('lit').PropertyDeclarations
-   */
+  /** @type import('lit').PropertyDeclarations */
   static get properties() {
     return {
       _email: {type: String, attribute: false, state: true},
-      _employee: {type: Object, attribute: false, state: true},
+      //   _employee: {type: Object, attribute: false, state: true},
     };
   }
 
-  /**
-   * @type import('lit').CSSResultGroup
-   */
+  /** @type import('lit').CSSResultGroup */
   static get styles() {
     return css`
       :host {
@@ -45,22 +41,16 @@ export class IngEmployeeEdit extends Translatable(LitElement) {
     this._email = location.params?.email;
   }
 
-  willUpdate(changedProperties) {
-    if (changedProperties.has('_email')) {
-      this._employee = (appDataStore.getState().employees || []).find(
-        (employee) => employee.email === this._email
-      );
-    }
-  }
-
   render() {
     return html`
       <ing-employee-add-edit-template
-        .employee=${this._employee}
+        .employee=${guard([this._email, this.state.employees], () =>
+          (this.state.employees || []).find(
+            (employee) => employee.email === this._email
+          )
+        )}
         @submit=${(event) => {
-          appDataStore
-            .getState()
-            .editEmployee(this._employee.email, event.detail);
+          this.state.editEmployee(this._employee.email, event.detail);
           this._appContext.value.router.render(`/`, true);
         }}
         @cancel=${() => {

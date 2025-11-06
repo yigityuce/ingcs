@@ -1,20 +1,15 @@
 import {LitElement, html, css} from 'lit';
-import {Translatable} from '../../../mixins';
 
 import '../../atoms/surface';
 import '../../organisms/navigation-bar';
 
-export class IngRootTemplate extends Translatable(LitElement) {
-  /**
-   * @type import('lit').PropertyDeclarations
-   */
+export class IngRootTemplate extends LitElement {
+  /** @type import('lit').PropertyDeclarations */
   static get properties() {
     return {};
   }
 
-  /**
-   * @type import('lit').CSSResultGroup
-   */
+  /** @type import('lit').CSSResultGroup */
   static get styles() {
     return css`
       :host {

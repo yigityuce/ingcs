@@ -43,12 +43,10 @@
     }
   },
   "edit": {
-    "title": "Edit Employee",
-    "subtitle": "Your are editing {{name}}"
+    "title": "Edit Employee - {{name}}"
   },
   "add": {
-    "title": "Add Employee",
-    "subtitle": ""
+    "title": "Add Employee"
   },
   "delete": {
     "title": "Are you sure?",

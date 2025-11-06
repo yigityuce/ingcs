@@ -1,8 +1,9 @@
 import {LitElement, html, css} from 'lit';
 import {ContextConsumer} from '@lit/context';
-import {appDataStore, translate, Namespaces} from '../../../utilities';
+import {choose} from 'lit/directives/choose.js';
+import {VIEW_MODES} from '../../../models';
+import {Namespaces, StoreConnector, Translatable} from '../../../utilities';
 import {appContext} from '../../../contexts/app.context';
-import {Translatable} from '../../../mixins';
 
 import '../../atoms/dialog';
 import '../../atoms/typography';
@@ -13,28 +14,19 @@ import '../../molecules/pagination';
 import '../../molecules/page-header';
 import '../../organisms/employees-table';
 import '../../organisms/employees-grid';
-import {choose} from 'lit/directives/choose.js';
 
-export class IngEmployees extends Translatable(LitElement) {
+export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
   _appContext = new ContextConsumer(this, {context: appContext});
 
-  /**
-   * @type import('lit').PropertyDeclarations
-   */
+  /** @type import('lit').PropertyDeclarations */
   static get properties() {
     return {
-      _employees: {type: Array, state: true},
       _filteredEmployees: {type: Array, state: true},
       _deletingEmployee: {type: Object, state: true},
-      _currentPage: {type: Number, state: true},
-      _pageSize: {type: Number, state: true},
-      _viewMode: {type: String, state: true}, // 'table' or 'grid'
     };
   }
 
-  /**
-   * @type import('lit').CSSResultGroup
-   */
+  /** @type import('lit').CSSResultGroup */
   static get styles() {
     return css`
       :host {
@@ -63,29 +55,12 @@ export class IngEmployees extends Translatable(LitElement) {
 
   constructor() {
     super();
-    this._employees = appDataStore.getState().employees || [];
-    this._currentPage = appDataStore.getState().employeesTableCurrentPage || 1;
-    this._pageSize = 10; // Default page size, can be adjusted as needed
-    this._viewMode = 'table';
-    appDataStore.subscribe((state) => {
-      this._employees = state.employees || [];
-      this._currentPage = state.employeesTableCurrentPage;
-    });
-  }
-
-  willUpdate(changedProperties) {
-    if (
-      changedProperties.has('_employees') ||
-      changedProperties.has('_currentPage') ||
-      changedProperties.has('_pageSize')
-    ) {
-      this._filteredEmployees = this._employees.slice(
-        (this._currentPage - 1) * this._pageSize,
-        this._currentPage * this._pageSize
+    this.connectStore((state) => {
+      this._filteredEmployees = state.employees.slice(
+        (state.pagination.page - 1) * state.pagination.pageSize,
+        state.pagination.page * state.pagination.pageSize
       );
-
-      appDataStore.getState().setEmployeesTableCurrentPage(this._currentPage);
-    }
+    });
   }
 
   render() {
@@ -93,25 +68,31 @@ export class IngEmployees extends Translatable(LitElement) {
       <ing-surface footerSeparator paddingSize="x-large" gapSize="x-large">
         <ing-page-header
           slot="header"
-          title=${translate('title', {ns: Namespaces.EMPLOYEE})}
+          title=${this.t('title', {ns: Namespaces.EMPLOYEE})}
         >
         <div class="view-selector">
-            <ing-icon-button @click=${() => (this._viewMode = 'table')}>
+            <ing-icon-button @click=${() =>
+              this.state.setViewMode(VIEW_MODES.TABLE)}>
                 <ing-icon-outlined-list color=${
-                  this._viewMode === 'table' ? 'secondary' : 'disabled'
+                  this.state.viewMode === VIEW_MODES.TABLE
+                    ? 'secondary'
+                    : 'disabled'
                 } size="large" /></ing-icon-outlined-list>
             </ing-icon-button>
 
-            <ing-icon-button @click=${() => (this._viewMode = 'grid')}>
+            <ing-icon-button @click=${() =>
+              this.state.setViewMode(VIEW_MODES.GRID)}>
                 <ing-icon-outlined-grid color=${
-                  this._viewMode === 'grid' ? 'secondary' : 'disabled'
+                  this.state.viewMode === VIEW_MODES.GRID
+                    ? 'secondary'
+                    : 'disabled'
                 } size="large" /></ing-icon-outlined-grid>
             </ing-icon-button>
         </div>
         </ing-page-header>
-        ${choose(this._viewMode, [
+        ${choose(this.state.viewMode, [
           [
-            'table',
+            VIEW_MODES.TABLE,
             () => html`<ing-employees-table
               .employees=${this._filteredEmployees}
               @delete=${(e) => {
@@ -127,7 +108,7 @@ export class IngEmployees extends Translatable(LitElement) {
             </ing-employees-table>`,
           ],
           [
-            'grid',
+            VIEW_MODES.GRID,
             () => html`<ing-employees-grid
               .employees=${this._filteredEmployees}
               @delete=${(e) => {
@@ -151,11 +132,11 @@ export class IngEmployees extends Translatable(LitElement) {
         >
           <div slot="header">
             <ing-typography variant="title4" color="secondary" strong>
-              ${translate('delete.title', {ns: Namespaces.EMPLOYEE})}
+              ${this.t('delete.title', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
           </div>
           <ing-typography variant="body1" color="primary">
-            ${translate('delete.message', {
+            ${this.t('delete.message', {
               ns: Namespaces.EMPLOYEE,
               name: [
                 this._deletingEmployee?.firstName,
@@ -172,11 +153,11 @@ export class IngEmployees extends Translatable(LitElement) {
               color="primary"
               fullWidth
               @click=${() => {
-                appDataStore.getState().deleteEmployee(this._deletingEmployee);
+                this.state.deleteEmployee(this._deletingEmployee);
                 this._deletingEmployee = undefined;
               }}
             >
-              ${translate('proceed', {ns: Namespaces.COMMON})}
+              ${this.t('proceed', {ns: Namespaces.COMMON})}
             </ing-button>
             <ing-button
               variant="outlined"
@@ -184,17 +165,19 @@ export class IngEmployees extends Translatable(LitElement) {
               fullWidth
               @click=${() => (this._deletingEmployee = undefined)}
             >
-              ${translate('cancel', {ns: Namespaces.COMMON})}
+              ${this.t('cancel', {ns: Namespaces.COMMON})}
             </ing-button>
           </div>
         </ing-dialog>
         <div slot="footer" class="page-footer">
           <ing-pagination
-            .currentPage=${this._currentPage}
-            .totalPages=${Math.ceil(this._employees.length / this._pageSize)}
+            .currentPage=${this.state.pagination.page}
+            .totalPages=${Math.ceil(
+              this.state.employees.length / this.state.pagination.pageSize
+            )}
             .visiblePageCountAroundCurrent=${1}
             @page-change=${(e) => {
-              this._currentPage = e.detail;
+              this.state.setPage(e.detail);
             }}
           ></ing-pagination>
         </div>

@@ -1,1 +1,2 @@
-export * from './translation-setup';
+export * from './constants.js';
+export * from './Translatable.js';

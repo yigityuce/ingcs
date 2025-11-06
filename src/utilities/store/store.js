@@ -2,11 +2,10 @@ import {createStore} from 'zustand/vanilla';
 import {faker} from '@faker-js/faker';
 import {immer} from 'zustand/middleware/immer';
 import {createJSONStorage, persist} from 'zustand/middleware';
-import {LANGUAGES} from '../../models/language';
+import {DEFAULT_LANGUAGE} from '../../models/language';
+import {DEFAULT_VIEW_MODE} from '../../models';
 
-/**
- * @param {number} count
- */
+/** @param {number} count */
 const createEmployees = (count) => {
   return faker.helpers.multiple(
     () => {
@@ -28,19 +27,31 @@ const createEmployees = (count) => {
   );
 };
 
-export const appDataStore = createStore(
+export const store = createStore(
   persist(
     immer((set) => ({
       employees: createEmployees(750),
-      employeesTableCurrentPage: 1,
-      language: LANGUAGES.EN,
+      language: DEFAULT_LANGUAGE.code,
+      viewMode: DEFAULT_VIEW_MODE,
+      pagination: {
+        page: 1,
+        pageSize: 10,
+      },
       setLanguage: (language) =>
         set((state) => {
           state.language = language;
         }),
-      setEmployeesTableCurrentPage: (page) =>
+      setViewMode: (mode) =>
         set((state) => {
-          state.employeesTableCurrentPage = page;
+          state.viewMode = mode;
+        }),
+      setPage: (page) =>
+        set((state) => {
+          state.pagination = {...state.pagination, page};
+        }),
+      setPageSize: (pageSize) =>
+        set((state) => {
+          state.pagination = {...state.pagination, pageSize};
         }),
       reinitEmployees: () =>
         set((state) => {
@@ -82,7 +93,3 @@ export const appDataStore = createStore(
     }),
   }
 );
-
-appDataStore.setState({
-  employees: appDataStore.getState().employees || [],
-});

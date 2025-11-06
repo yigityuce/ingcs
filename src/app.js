@@ -3,32 +3,23 @@ import {createRef, ref} from 'lit/directives/ref.js';
 import {ContextProvider} from '@lit/context';
 import {Router} from '@vaadin/router';
 import {appContext} from './contexts/app.context';
-import {appDataStore, i18n} from './utilities';
-import {DEFAULT_LANGUAGE} from './models';
+import {StoreConnector, Translatable} from './utilities';
 
-export class IngApp extends LitElement {
-  /**
-   * @type Router
-   */
+export class IngApp extends StoreConnector(Translatable(LitElement)) {
+  /** @type Router */
   _routerInstance = null;
 
-  /**
-   * @type {import('lit/directives/ref.js').Ref<HTMLElement>}
-   */
+  /** @type {import('lit/directives/ref.js').Ref<HTMLElement>} */
   _routerElementRef = createRef();
 
   _appContextProvider = new ContextProvider(this, {context: appContext});
 
-  /**
-   * @type import('lit').PropertyDeclarations
-   */
+  /** @type import('lit').PropertyDeclarations */
   static get properties() {
     return {};
   }
 
-  /**
-   * @type import('lit').CSSResultGroup
-   */
+  /** @type import('lit').CSSResultGroup */
   static get styles() {
     return css`
       :host {
@@ -51,11 +42,8 @@ export class IngApp extends LitElement {
 
   constructor() {
     super();
-    i18n.changeLanguage(
-      appDataStore.getState().language || DEFAULT_LANGUAGE.code
-    );
-    appDataStore.subscribe((state) => {
-      i18n.changeLanguage(state.language || DEFAULT_LANGUAGE.code);
+    this.connectStore((state) => {
+      this.setLanguage(state.language);
     });
   }
 
@@ -107,6 +95,7 @@ export class IngApp extends LitElement {
           },
         ],
       },
+      {path: '(.*)', redirect: '/'},
     ]);
   }
 }

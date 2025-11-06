@@ -1,7 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import {when} from 'lit/directives/when.js';
-import {Translatable} from '../../../mixins';
-import {Namespaces, translate} from '../../../utilities';
+import {Namespaces, Translatable} from '../../../utilities';
 
 import '../../atoms/typography';
 import '../../atoms/surface';
@@ -9,9 +7,7 @@ import '../../molecules/page-header';
 import '../../organisms/employee-add-edit-form';
 
 export class IngEmployeeAddEditTemplate extends Translatable(LitElement) {
-  /**
-   * @type import('lit').PropertyDeclarations
-   */
+  /** @type import('lit').PropertyDeclarations */
   static get properties() {
     return {
       employee: {type: Object, attribute: false},
@@ -19,9 +15,7 @@ export class IngEmployeeAddEditTemplate extends Translatable(LitElement) {
     };
   }
 
-  /**
-   * @type import('lit').CSSResultGroup
-   */
+  /** @type import('lit').CSSResultGroup */
   static get styles() {
     return css`
       :host {
@@ -50,24 +44,14 @@ export class IngEmployeeAddEditTemplate extends Translatable(LitElement) {
       <ing-page-header
         slot="header"
         title=${this._editing
-          ? translate('edit.title', {ns: Namespaces.EMPLOYEE})
-          : translate('add.title', {ns: Namespaces.EMPLOYEE})}
+          ? this.t('edit.title', {
+              ns: Namespaces.EMPLOYEE,
+              name: [this.employee.firstName, this.employee.lastName].join(' '),
+            })
+          : this.t('add.title', {ns: Namespaces.EMPLOYEE})}
       >
       </ing-page-header>
       <ing-surface withBackground withBorderRadius paddingSize="small">
-        ${when(
-          this._editing,
-          () =>
-            html`<ing-typography strong slot="header">
-              ${translate('edit.subtitle', {
-                ns: Namespaces.EMPLOYEE,
-                name: [this.employee.firstName, this.employee.lastName].join(
-                  ' '
-                ),
-              })}
-            </ing-typography>`,
-          () => null
-        )}
         <ing-employee-add-edit-form .employee=${this.employee}>
         </ing-employee-add-edit-form>
       </ing-surface>

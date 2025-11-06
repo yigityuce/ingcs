@@ -1,11 +1,11 @@
 import {LitElement, html, css} from 'lit';
 import {ContextConsumer} from '@lit/context';
+import {StoreConnector} from '../../../utilities';
 import {appContext} from '../../../contexts/app.context';
-import {appDataStore} from '../../../utilities';
 
 import '../../templates/employee-add-edit-template';
 
-export class IngEmployeeAdd extends LitElement {
+export class IngEmployeeAdd extends StoreConnector(LitElement) {
   _appContext = new ContextConsumer(this, {context: appContext});
 
   /**
@@ -34,7 +34,7 @@ export class IngEmployeeAdd extends LitElement {
     return html`
       <ing-employee-add-edit-template
         @submit=${(event) => {
-          appDataStore.getState().addEmployee(event.detail);
+          this.state.addEmployee(event.detail);
           this._appContext.value.router.render(`/`, true);
         }}
         @cancel=${() => {
