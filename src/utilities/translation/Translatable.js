@@ -3,7 +3,7 @@ import I18NextHttpBackend from 'i18next-http-backend';
 import {DEFAULT_LANGUAGE, LANGUAGES} from '../../models';
 import {DEFAULT_NAMESPACE, Namespaces, TRANSLATION_BASE_URL} from './constants';
 
-if (!i18next.isInitialized) {
+if (!i18next.isInitialized && !i18next.isInitializing) {
   i18next.use(I18NextHttpBackend).init({
     lng: DEFAULT_LANGUAGE.code,
     fallbackLng: DEFAULT_LANGUAGE.code,

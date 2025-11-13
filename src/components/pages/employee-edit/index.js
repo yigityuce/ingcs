@@ -1,1 +1,2 @@
-export * from './employee-edit';
+export * from './employee-edit.component';
+export * from './employee-edit.style';
