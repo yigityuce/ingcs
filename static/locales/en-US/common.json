@@ -7,5 +7,23 @@
   "navigationBar": {
     "employeesButton": "Employees",
     "addNewButton": "Add New"
+  },
+  "errorMessages": {
+    "requiredField": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "typeMismatch": "You have entered an inappropriate value",
+    "patternMismatch": "You have entered an inappropriate format",
+    "tooShort": "Cannot be less than {{minLength}} characters",
+    "tooLong": "Cannot be more than {{maxLength}} characters",
+    "rangeUnderflow": "Cannot be less than {{min}}",
+    "rangeOverflow": "Cannot be more than {{max}}",
+    "stepMismatch": "Invalid step value",
+
+    "invalidPhone": "Invalid phone number",
+    "ageRestriction": "Age must be at least {{minAge}}",
+    "emailAlreadyExists": "This email is already registered",
+    "phoneAlreadyExists": "This phone number is already registered",
+    "employmentDateInFuture": "Date of Employment cannot be in the future",
+    "employmentDateBeforeDOB": "Employment date cannot be before date of birth"
   }
 }

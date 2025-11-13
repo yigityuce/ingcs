@@ -24,12 +24,12 @@ export const styles = css`
     row-gap: calc(3 * var(--ing-size-gap-x-large));
     align-content: flex-start;
 
-    @media screen and (max-width: 600px) {
+    ${responsiveMediaQuery(SCREEN.MOBILE)} {
       grid-template-columns: repeat(1, 1fr);
       gap: calc(1 * var(--ing-size-gap-x-large));
     }
 
-    @media screen and (min-width: 601px) and (max-width: 1024px) {
+    ${responsiveMediaQuery(SCREEN.TABLET)} {
       grid-template-columns: repeat(2, 1fr);
     }
   }

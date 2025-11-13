@@ -2,6 +2,9 @@ import {css, unsafeCSS} from 'lit';
 
 export const classNames = {
   native: 'native-input',
+  invalid: 'invalid',
+  label: 'label',
+  assistiveText: 'assistive-text',
 };
 
 export const styles = css`
@@ -16,13 +19,29 @@ export const styles = css`
   }
 
   label {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: var(--ing-size-gap-medium);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'label'
+      'native-input'
+      'assistive-text';
     color: var(--ing-color-text-primary);
   }
 
+  .${unsafeCSS(classNames.label)} {
+    grid-area: label;
+    margin-bottom: var(--ing-size-gap-large);
+  }
+
+  .${unsafeCSS(classNames.assistiveText)} {
+    grid-area: assistive-text;
+    min-height: 1rem;
+    margin-top: var(--ing-size-gap-small);
+    color: var(--ing-color-text-disabled);
+  }
+
   .${unsafeCSS(classNames.native)} {
+    grid-area: native-input;
     width: 100%;
     box-sizing: border-box;
     padding: var(--ing-size-spacing-small);
@@ -36,15 +55,19 @@ export const styles = css`
 
     &:focus {
       outline-color: var(--ing-color-brand);
-      & + ing-typography {
+      & + .${unsafeCSS(classNames.label)} {
         color: var(--ing-color-brand);
       }
     }
 
-    &:user-invalid {
+    &.${unsafeCSS(classNames.invalid)} {
       outline-color: var(--ing-color-error-dark);
       outline-width: 2px;
-      & + ing-typography {
+      & ~ .${unsafeCSS(classNames.label)} {
+        color: var(--ing-color-error-dark);
+      }
+
+      & ~ .${unsafeCSS(classNames.assistiveText)} {
         color: var(--ing-color-error-dark);
       }
     }

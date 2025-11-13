@@ -2,8 +2,12 @@ import {createStore} from 'zustand/vanilla';
 import {faker} from '@faker-js/faker';
 import {immer} from 'zustand/middleware/immer';
 import {createJSONStorage, persist} from 'zustand/middleware';
-import {DEFAULT_LANGUAGE} from '../../models/language';
-import {DEFAULT_VIEW_MODE} from '../../models';
+import {
+  DEFAULT_LANGUAGE,
+  DEFAULT_VIEW_MODE,
+  DEPARTMENT,
+  POSITION,
+} from '../../models';
 
 /** @param {number} count */
 const createEmployees = (count) => {
@@ -19,8 +23,8 @@ const createEmployees = (count) => {
         dateOfEmployment: faker.date.past(10),
         dateOfBirth: faker.date.birthdate({min: 25, max: 50, mode: 'age'}),
         phoneNumber: faker.phone.number({style: 'international'}),
-        department: faker.helpers.arrayElement(['Analytics', 'Tech']),
-        position: faker.helpers.arrayElement(['Junior', 'Medior', 'Senior']),
+        department: faker.helpers.arrayElement(Object.values(DEPARTMENT)),
+        position: faker.helpers.arrayElement(Object.values(POSITION)),
       };
     },
     {count}

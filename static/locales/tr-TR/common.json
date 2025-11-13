@@ -7,5 +7,23 @@
   "navigationBar": {
     "employeesButton": "Çalışan Listesi",
     "addNewButton": "Yeni Ekle"
+  },
+  "errorMessages": {
+    "requiredField": "Bu alan zorunludur",
+    "invalidEmail": "Geçersiz e-posta adresi",
+    "typeMismatch": "Uygun olmayan bir değer girdiniz",
+    "patternMismatch": "Uygun olmayan bir format girdiniz",
+    "tooShort": "{{minLength}} karakterden az olamaz",
+    "tooLong": "{{maxLength}} karakterden fazla olamaz",
+    "rangeUnderflow": "{{min}} değerinden az olamaz",
+    "rangeOverflow": "{{max}} değerinden fazla olamaz",
+    "stepMismatch": "Geçersiz adım değeri",
+
+    "invalidPhone": "Geçersiz telefon numarası",
+    "ageRestriction": "Yaş en az {{minAge}} olmalıdır",
+    "emailAlreadyExists": "Bu e-posta zaten kayıtlı",
+    "phoneAlreadyExists": "Bu telefon numarası zaten kayıtlı",
+    "employmentDateInFuture": "İşe başlama tarihi gelecekte olamaz",
+    "employmentDateBeforeDOB": "İşe başlama tarihi doğum tarihinden önce olamaz"
   }
 }

@@ -31,6 +31,10 @@ export const Translatable = (baseClass) =>
       );
     }
 
+    onLanguageChanged(callback) {
+      i18next.on('languageChanged', callback);
+    }
+
     firstUpdated() {
       i18next.on('initialized', () => {
         this.requestUpdate();

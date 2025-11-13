@@ -1,8 +1,14 @@
-import {format, parse} from 'date-fns';
+import {format, intervalToDuration, isBefore, isFuture} from 'date-fns';
 import {LitElement, html} from 'lit';
 import {live} from 'lit/directives/live.js';
 import {createRef, ref} from 'lit/directives/ref.js';
-import {applyDefaultProps, Namespaces, Translatable} from '../../../utilities';
+import {
+  applyDefaultProps,
+  Namespaces,
+  parseDate,
+  StoreConnector,
+  Translatable,
+} from '../../../utilities';
 import {defaultProps, props} from './employee-form.props';
 import {classNames, styles} from './employee-form.style';
 
@@ -12,8 +18,11 @@ import '../../atoms/icon';
 import '../../atoms/surface';
 import '../../atoms/input';
 import '../../atoms/button';
+import {DEPARTMENT, POSITION} from '../../../models';
 
-export class IngEmployeeAddEditForm extends Translatable(LitElement) {
+export class IngEmployeeAddEditForm extends StoreConnector(
+  Translatable(LitElement)
+) {
   /** @type {import('lit/directives/ref.js').Ref<HTMLFormElement>} */
   _formRef = createRef();
 
@@ -29,22 +38,16 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
   }
 
   _submitForm() {
-    /** @type {HTMLFormElement} */
     const form = this._formRef.value;
-    const formData = new FormData(form);
-    const data = {};
-    for (const key of formData.keys()) {
-      data[key] = formData.get(key);
-    }
-
-    data.dateOfBirth = parse(data.dateOfBirth, 'yyyy-MM-dd', new Date());
-    data.dateOfEmployment = parse(
-      data.dateOfEmployment,
-      'yyyy-MM-dd',
-      new Date()
-    );
 
     if (form.reportValidity()) {
+      const formData = new FormData(form);
+      const data = {};
+      for (const key of formData.keys()) {
+        data[key] = formData.get(key);
+      }
+      data.dateOfBirth = parseDate(data.dateOfBirth);
+      data.dateOfEmployment = parseDate(data.dateOfEmployment);
       this.dispatchEvent(
         new CustomEvent('submit', {
           detail: data,
@@ -66,147 +69,243 @@ export class IngEmployeeAddEditForm extends Translatable(LitElement) {
         <ing-input
           name="firstName"
           type="text"
+          required
           label=${this.t('fields.firstName.label', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .value=${live(this.employee?.firstName ?? '')}
           placeholder=${this.t('fields.firstName.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
-          required
+          .initialValue=${live(this.employee?.firstName ?? '')}
         >
+          <span slot="assistive-text">
+            ${this.t('fields.firstName.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
         </ing-input>
+
         <ing-input
           name="lastName"
           type="text"
+          required
           label=${this.t('fields.lastName.label', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .value=${live(this.employee?.lastName ?? '')}
           placeholder=${this.t('fields.lastName.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
-          required
+          .initialValue=${live(this.employee?.lastName ?? '')}
         >
+          <span slot="assistive-text">
+            ${this.t('fields.lastName.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
         </ing-input>
-        <ing-input
-          name="dateOfEmployment"
-          type="date"
-          label=${this.t('fields.dateOfEmployment.label', {
-            ns: Namespaces.EMPLOYEE,
-          })}
-          .value=${format(
-            new Date(this.employee?.dateOfEmployment || Date.now()),
-            'yyyy-MM-dd'
-          )}
-          placeholder=${this.t('fields.dateOfEmployment.placeholder', {
-            ns: Namespaces.EMPLOYEE,
-          })}
-          required
-        >
-        </ing-input>
+
         <ing-input
           name="dateOfBirth"
           type="date"
+          required
           label=${this.t('fields.dateOfBirth.label', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .value=${format(
-            new Date(this.employee?.dateOfBirth || Date.now()),
-            'yyyy-MM-dd'
-          )}
           placeholder=${this.t('fields.dateOfBirth.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
-          required
+          .initialValue=${this.employee?.dateOfBirth
+            ? format(new Date(this.employee?.dateOfBirth), 'yyyy-MM-dd')
+            : undefined}
+          .customValidator=${(input) => {
+            const value = parseDate(input.value);
+            const duration = intervalToDuration({
+              start: value,
+              end: new Date(),
+            });
+            if (duration.years < 18) {
+              return this.t('errorMessages.ageRestriction', {
+                ns: Namespaces.COMMON,
+                minAge: 18,
+              });
+            }
+          }}
         >
+          <span slot="assistive-text">
+            ${this.t('fields.dateOfBirth.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
         </ing-input>
+
+        <ing-input
+          name="dateOfEmployment"
+          type="date"
+          required
+          label=${this.t('fields.dateOfEmployment.label', {
+            ns: Namespaces.EMPLOYEE,
+          })}
+          placeholder=${this.t('fields.dateOfEmployment.placeholder', {
+            ns: Namespaces.EMPLOYEE,
+          })}
+          .initialValue=${format(
+            new Date(this.employee?.dateOfEmployment || Date.now()),
+            'yyyy-MM-dd'
+          )}
+          .customValidator=${(input, form) => {
+            const value = parseDate(input.value);
+            const formData = new FormData(form);
+            const dob = formData.get('dateOfBirth')
+              ? parseDate(formData.get('dateOfBirth'))
+              : null;
+
+            if (isFuture(value)) {
+              return this.t('errorMessages.employmentDateInFuture', {
+                ns: Namespaces.COMMON,
+              });
+            }
+            if (dob && isBefore(value, dob)) {
+              return this.t('errorMessages.employmentDateBeforeDOB', {
+                ns: Namespaces.COMMON,
+              });
+            }
+          }}
+        >
+          <span slot="assistive-text">
+            ${this.t('fields.dateOfEmployment.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
+        </ing-input>
+
         <ing-input
           name="phoneNumber"
           type="text"
+          required
           label=${this.t('fields.phone.label', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .value=${this.employee?.phoneNumber ?? ''}
           placeholder=${this.t('fields.phone.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
-          required
+          .initialValue=${this.employee?.phoneNumber ?? ''}
+          .customValidator=${(input) => {
+            if (
+              this.state.employees.some(
+                (emp) => emp.phoneNumber === input.value
+              )
+            ) {
+              return this.t('errorMessages.phoneAlreadyExists', {
+                ns: Namespaces.COMMON,
+              });
+            }
+          }}
         >
+          <span slot="assistive-text">
+            ${this.t('fields.phone.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
         </ing-input>
+
         <ing-input
           name="email"
           type="email"
+          required
           label=${this.t('fields.email.label', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .value=${live(this.employee?.email ?? '')}
           placeholder=${this.t('fields.email.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
-          required
+          .initialValue=${live(this.employee?.email ?? '')}
+          .customValidator=${(input) => {
+            if (this.state.employees.some((emp) => emp.email === input.value)) {
+              return this.t('errorMessages.emailAlreadyExists', {
+                ns: Namespaces.COMMON,
+              });
+            }
+          }}
         >
+          <span slot="assistive-text">
+            ${this.t('fields.email.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
         </ing-input>
+
         <ing-input
           name="department"
           type="select"
           label=${this.t('fields.department.label', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .value=${live(this.employee?.department)}
+          .initialValue=${live(this.employee?.department)}
           placeholder=${this.t('fields.department.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
           required
           .options=${[
             {
-              value: 'Analytics',
+              value: DEPARTMENT.ANALYTICS,
               label: html`${this.t('fields.department.analytics', {
                 ns: Namespaces.EMPLOYEE,
               })}`,
             },
             {
-              value: 'Tech',
+              value: DEPARTMENT.TECH,
               label: html`${this.t('fields.department.tech', {
                 ns: Namespaces.EMPLOYEE,
               })}`,
             },
           ]}
         >
+          <span slot="assistive-text">
+            ${this.t('fields.department.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
         </ing-input>
+
         <ing-input
           name="position"
           type="select"
           label=${this.t('fields.position.label', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .value=${live(this.employee?.position)}
+          .initialValue=${live(this.employee?.position)}
           placeholder=${this.t('fields.position.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
           required
           .options=${[
             {
-              value: 'Junior',
+              value: POSITION.JR,
               label: html`${this.t('fields.position.junior', {
                 ns: Namespaces.EMPLOYEE,
               })}`,
             },
             {
-              value: 'Medior',
+              value: POSITION.MID,
               label: html`${this.t('fields.position.medior', {
                 ns: Namespaces.EMPLOYEE,
               })}`,
             },
             {
-              value: 'Senior',
+              value: POSITION.SR,
               label: html`${this.t('fields.position.senior', {
                 ns: Namespaces.EMPLOYEE,
               })}`,
             },
           ]}
         >
+          <span slot="assistive-text">
+            ${this.t('fields.position.assistiveText', {
+              ns: Namespaces.EMPLOYEE,
+            })}
+          </span>
         </ing-input>
+
         <div class=${classNames.actions}>
           <ing-button
             variant="contained"

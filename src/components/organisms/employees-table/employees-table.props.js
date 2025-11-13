@@ -1,8 +1,8 @@
 /** @type import('lit').PropertyDeclarations */
 export const props = {
-  employee: {type: Object, attribute: false},
+  employees: {type: Array, attribute: false},
 };
 
 export const defaultProps = {
-  employee: null,
+  employees: [],
 };

@@ -38,7 +38,7 @@ export class IngEmployeeEdit extends StoreConnector(Translatable(LitElement)) {
           )
         )}
         @submit=${(event) => {
-          this.state.editEmployee(this._employee.email, event.detail);
+          this.state.editEmployee(this._email, event.detail);
           this._appContext.value.router.render(`/`, true);
         }}
         @cancel=${() => {

@@ -1,4 +1,5 @@
 import {css, unsafeCSS} from 'lit';
+import {responsiveMediaQuery, SCREEN} from '../../../utilities';
 
 export const classNames = {
   brand: 'brand',
@@ -15,7 +16,7 @@ export const styles = css`
     background-color: var(--ing-color-background-surface);
     padding: var(--ing-size-spacing-small);
 
-    @media screen and (max-width: 600px) {
+    ${responsiveMediaQuery(SCREEN.MOBILE)} {
       flex-direction: column;
     }
   }

@@ -3,37 +3,45 @@
   "fields": {
     "firstName": {
       "label": "Ad",
-      "placeholder": "Ad girin"
+      "placeholder": "Örn: John",
+      "assistiveText": "Çalışanın adını girin"
     },
     "lastName": {
       "label": "Soyad",
-      "placeholder": "Soyad girin"
+      "placeholder": "Örn: Doe",
+      "assistiveText": "Çalışanın soyadını girin"
     },
     "email": {
       "label": "E-posta",
-      "placeholder": "E-posta girin"
+      "placeholder": "Örn: john.doe@ing.com",
+      "assistiveText": "Çalışanın e-posta adresini girin"
     },
     "phone": {
       "label": "Telefon",
-      "placeholder": "Telefon numarası girin"
+      "placeholder": "Örn: +90 555 555 55 55",
+      "assistiveText": "Çalışanın telefon numarasını girin"
     },
     "dateOfBirth": {
       "label": "Doğum Tarihi",
-      "placeholder": "Doğum tarihini seçin"
+      "placeholder": "Örn: 01/01/1990",
+      "assistiveText": "Doğum tarihini seçin"
     },
     "dateOfEmployment": {
       "label": "İşe Giriş Tarihi",
-      "placeholder": "İşe giriş tarihini seçin"
+      "placeholder": "Örn: 01/01/2020",
+      "assistiveText": "İşe giriş tarihini seçin"
     },
     "department": {
       "label": "Departman",
-      "placeholder": "Departman seçin",
+      "placeholder": "Örn: Teknoloji",
+      "assistiveText": "Çalışanın departmanını seçin",
       "analytics": "Analitik",
       "tech": "Teknoloji"
     },
     "position": {
       "label": "Pozisyon",
-      "placeholder": "Pozisyon seçin",
+      "placeholder": "Örn: Senior",
+      "assistiveText": "Çalışanın pozisyonunu seçin",
       "junior": "Junior",
       "medior": "Medior",
       "senior": "Senior"

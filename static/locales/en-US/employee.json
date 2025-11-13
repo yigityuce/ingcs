@@ -3,37 +3,45 @@
   "fields": {
     "firstName": {
       "label": "First Name",
-      "placeholder": "Enter first name"
+      "placeholder": "E.g.: John",
+      "assistiveText": "Enter employee's first name"
     },
     "lastName": {
       "label": "Last Name",
-      "placeholder": "Enter last name"
+      "placeholder": "E.g.: Doe",
+      "assistiveText": "Enter employee's last name"
     },
     "email": {
       "label": "Email",
-      "placeholder": "Enter email"
+      "placeholder": "E.g.: john.doe@ing.com",
+      "assistiveText": "Enter employee's email address"
     },
     "phone": {
       "label": "Phone",
-      "placeholder": "Enter phone number"
+      "placeholder": "E.g.: +90 555 555 55 55",
+      "assistiveText": "Enter employee's phone number"
     },
     "dateOfBirth": {
       "label": "Date of Birth",
-      "placeholder": "Select date of birth"
+      "placeholder": "E.g.: 01/01/1990",
+      "assistiveText": "Select date of birth"
     },
     "dateOfEmployment": {
       "label": "Date of Employment",
-      "placeholder": "Select date of employment"
+      "placeholder": "E.g.: 01/01/2020",
+      "assistiveText": "Select date of employment"
     },
     "department": {
       "label": "Department",
-      "placeholder": "Select department",
+      "placeholder": "E.g.: Tech",
+      "assistiveText": "Select employee's department",
       "analytics": "Analytics",
       "tech": "Tech"
     },
     "position": {
       "label": "Position",
-      "placeholder": "Select position",
+      "placeholder": "E.g.: Senior",
+      "assistiveText": "Select employee's position",
       "junior": "Junior",
       "medior": "Medior",
       "senior": "Senior"
