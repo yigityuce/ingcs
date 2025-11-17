@@ -34,8 +34,7 @@ export class IngManageEmployeeTemplate extends Translatable(LitElement) {
       >
       </ing-page-header>
       <ing-surface withBackground withBorderRadius paddingSize="small">
-        <ing-employee-add-edit-form .employee=${this.employee}>
-        </ing-employee-add-edit-form>
+        <ing-employee-form .employee=${this.employee}> </ing-employee-form>
       </ing-surface>
     </ing-surface>`;
   }

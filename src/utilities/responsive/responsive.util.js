@@ -12,7 +12,6 @@ export const BREAKPOINTS = {
   [SCREEN.DESKTOP]: {min: 1025, max: undefined},
 };
 
-// TODO: apply everywhere
 /** @param { keyof SCREEN} screen */
 export const responsiveMediaQuery = (screen) => {
   return unsafeCSS(

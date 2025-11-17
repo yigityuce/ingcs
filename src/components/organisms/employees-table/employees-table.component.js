@@ -7,17 +7,21 @@ import {
   formatDate,
   MASK_PHONE,
   Namespaces,
+  StoreConnector,
   Translatable,
 } from '../../../utilities';
 import {defaultProps, props} from './employees-table.props';
 import {styles, classNames} from './employees-table.style';
 
 import '../../atoms/typography';
+import '../../atoms/checkbox';
 import '../../atoms/icon-button';
 import '../../atoms/surface';
 import '../../../icons';
 
-export class IngEmployeesTable extends Translatable(LitElement) {
+export class IngEmployeesTable extends StoreConnector(
+  Translatable(LitElement)
+) {
   /** @type import('lit').PropertyDeclarations */
   static properties = {...props};
 
@@ -26,7 +30,24 @@ export class IngEmployeesTable extends Translatable(LitElement) {
 
   constructor() {
     super();
+    this._cbState = 'indeterminate';
     applyDefaultProps(this, defaultProps);
+  }
+
+  _getGlobalCheckboxState() {
+    const numberOfIntersectedEmployees = this.employees.filter((employee) =>
+      this.state.selectedEmployees.includes(employee.email)
+    ).length;
+
+    if (numberOfIntersectedEmployees) {
+      if (numberOfIntersectedEmployees === this.employees.length) {
+        return 'checked';
+      } else {
+        return 'indeterminate';
+      }
+    } else {
+      return 'unchecked';
+    }
   }
 
   render() {
@@ -39,7 +60,15 @@ export class IngEmployeesTable extends Translatable(LitElement) {
               [classNames.tableHeader]: true,
             })}
           >
-            <div class=${classNames.cell}><input type="checkbox" /></div>
+            <div class=${classNames.cell}>
+              <ing-checkbox
+                .state=${this._getGlobalCheckboxState()}
+                @stateChange=${({detail}) =>
+                  this.state.setEmployeeSelection(
+                    detail === 'checked' ? this.employees : []
+                  )}
+              ></ing-checkbox>
+            </div>
             <ing-typography class=${classNames.cell} color="secondary" strong>
               ${this.t('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}
             </ing-typography>
@@ -78,7 +107,13 @@ export class IngEmployeesTable extends Translatable(LitElement) {
             (employee) => html`
           <div class=${classNames.row}>
             <div class=${classNames.cell}>
-              <input type="checkbox" />
+              <ing-checkbox .state=${
+                this.state.selectedEmployees?.includes(employee.email)
+                  ? 'checked'
+                  : 'unchecked'
+              }
+			 	@stateChange=${() => this.state.toggleEmployeeSelection(employee)} 
+			  ></ing-checkbox>
             </div>
             <ing-typography class=${classNames.cell} strong noWrap>
               ${employee.firstName}

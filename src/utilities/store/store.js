@@ -15,7 +15,13 @@ const createEmployees = (count) => {
     () => {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
-      const email = faker.internet.email(firstName, lastName);
+      const email = faker.internet
+        .email({
+          firstName,
+          lastName,
+          provider: 'ing.com',
+        })
+        .toLowerCase();
       return {
         email,
         firstName,
@@ -37,6 +43,7 @@ export const store = createStore(
       employees: createEmployees(750),
       language: DEFAULT_LANGUAGE.code,
       viewMode: DEFAULT_VIEW_MODE,
+      selectedEmployees: [],
       pagination: {
         page: 1,
         pageSize: 10,
@@ -76,6 +83,20 @@ export const store = createStore(
           state.employees = state.employees.filter(
             (e) => e.email !== employee.email
           );
+        }),
+      toggleEmployeeSelection: (employee) =>
+        set((state) => {
+          if (state.selectedEmployees.includes(employee.email)) {
+            state.selectedEmployees = state.selectedEmployees.filter(
+              (e) => e !== employee.email
+            );
+          } else {
+            state.selectedEmployees.push(employee.email);
+          }
+        }),
+      setEmployeeSelection: (employees) =>
+        set((state) => {
+          state.selectedEmployees = employees.map((e) => e.email);
         }),
     }))
   ),

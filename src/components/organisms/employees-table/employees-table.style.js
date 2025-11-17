@@ -33,13 +33,13 @@ export const styles = css`
     grid-column: span 10;
     border-bottom: 1px solid var(--ing-color-grey-200);
     place-items: center;
-    padding: var(--ing-size-spacing-large) var(--ing-size-spacing-small);
+    padding: var(--ing-size-spacing-large);
   }
 
   .${unsafeCSS(classNames.tableHeader)} {
     top: 0;
     position: sticky;
-    z-index: 2;
+    z-index: 3;
     background-color: var(--ing-color-background-surface);
   }
 

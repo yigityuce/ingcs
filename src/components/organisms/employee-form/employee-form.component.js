@@ -338,7 +338,4 @@ export class IngEmployeeAddEditForm extends StoreConnector(
   }
 }
 
-window.customElements.define(
-  'ing-employee-add-edit-form',
-  IngEmployeeAddEditForm
-);
+window.customElements.define('ing-employee-form', IngEmployeeAddEditForm);

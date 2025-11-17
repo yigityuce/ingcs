@@ -40,6 +40,14 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
     });
   }
 
+  _onEdit(employee) {
+    this._appContext.value.router.render(`/edit/${employee.email}`, true);
+  }
+
+  _onDelete(employee) {
+    this._deletingEmployee = employee;
+  }
+
   render() {
     return html`
       <ing-surface footerSeparator paddingSize="x-large" gapSize="x-large">
@@ -57,33 +65,17 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
             VIEW_MODES.TABLE,
             () => html`<ing-employees-table
               .employees=${this._filteredEmployees}
-              @delete=${(e) => {
-                this._deletingEmployee = e.detail;
-              }}
-              @edit=${(e) => {
-                this._appContext.value.router.render(
-                  `/edit/${e.detail.email}`,
-                  true
-                );
-              }}
-            >
-            </ing-employees-table>`,
+              @delete=${(e) => this._onDelete(e.detail)}
+              @edit=${(e) => this._onEdit(e.detail)}
+            ></ing-employees-table>`,
           ],
           [
             VIEW_MODES.GRID,
             () => html`<ing-employees-grid
               .employees=${this._filteredEmployees}
-              @delete=${(e) => {
-                this._deletingEmployee = e.detail;
-              }}
-              @edit=${(e) => {
-                this._appContext.value.router.render(
-                  `/edit/${e.detail.email}`,
-                  true
-                );
-              }}
-            >
-            </ing-employees-grid>`,
+              @delete=${(e) => this._onDelete(e.detail)}
+              @edit=${(e) => this._onEdit(e.detail)}
+            ></ing-employees-grid>`,
           ],
         ])}
 
