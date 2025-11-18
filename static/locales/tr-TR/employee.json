@@ -58,6 +58,9 @@
   },
   "delete": {
     "title": "Emin misiniz?",
-    "message": "{{name}} kişisine ait çalışan kaydı silinecek."
+    "message_one": "Seçili çalışan kaydı silinecek.",
+    "message_other": "Seçili çalışan kayıtları silinecek.",
+    "multiple-button-text_one": "{{count}} Çalışanı Sil",
+    "multiple-button-text_other": "{{count}} Çalışanı Sil"
   }
 }

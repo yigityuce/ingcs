@@ -5,6 +5,7 @@ export const classNames = {
   content: 'content',
   section: 'section',
   actions: 'actions',
+  selectedIndicator: 'selected-indicator',
 };
 
 export const style = css`
@@ -12,16 +13,7 @@ export const style = css`
     display: block;
     box-sizing: border-box;
     width: 100%;
-    max-width: 600px;
     height: 100%;
-  }
-
-  :host(:nth-child(2n)) {
-    justify-self: start;
-  }
-
-  :host(:nth-child(2n + 1)) {
-    justify-self: end;
   }
 
   .${unsafeCSS(classNames.content)} {
@@ -29,6 +21,7 @@ export const style = css`
     grid-template-columns: repeat(2, 1fr);
     gap: var(--ing-size-gap-2x-large);
     overflow: visible;
+    position: relative;
 
     ${responsiveMediaQuery(SCREEN.MOBILE)} {
       grid-template-columns: 1fr;
@@ -52,5 +45,11 @@ export const style = css`
     ${responsiveMediaQuery(SCREEN.MOBILE)} {
       grid-template-columns: 1fr;
     }
+  }
+
+  .${unsafeCSS(classNames.selectedIndicator)} {
+    position: absolute;
+    top: 0rem;
+    right: -1rem;
   }
 `;

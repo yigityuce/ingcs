@@ -37,6 +37,18 @@ export class IngEmployeeCard extends Translatable(LitElement) {
         gapSize="medium"
       >
         <div class=${classNames.content}>
+          <ing-checkbox
+            class=${classNames.selectedIndicator}
+            .state=${this.selected ? 'checked' : 'unchecked'}
+            @stateChange=${(e) =>
+              this.dispatchEvent(
+                new CustomEvent('selectionChange', {
+                  detail: e.detail === 'checked',
+                  bubbles: true,
+                  composed: true,
+                })
+              )}
+          ></ing-checkbox>
           <div class=${classNames.section}>
             <ing-typography color="disabled" variant="body2">
               ${this.t('fields.firstName.label', {ns: Namespaces.EMPLOYEE})}

@@ -1,6 +1,7 @@
 import {css, unsafeCSS} from 'lit';
 
 export const classNames = {
+  header: 'header',
   footer: 'footer',
 };
 
@@ -18,5 +19,22 @@ export const styles = css`
     display: flex;
     justify-content: center;
     padding-top: var(--ing-size-spacing-medium);
+  }
+
+  .${unsafeCSS(classNames.header)} {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--ing-size-gap-medium);
+  }
+
+  ing-confirmation-dialog {
+    ul {
+      margin: var(--ing-size-spacing-medium);
+      padding: var(--ing-size-spacing-medium) 0;
+      li {
+        padding-bottom: var(--ing-size-spacing-x-small);
+      }
+    }
   }
 `;

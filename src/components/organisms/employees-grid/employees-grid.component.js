@@ -1,6 +1,6 @@
 import {LitElement, html} from 'lit';
 import {repeat} from 'lit/directives/repeat.js';
-import {applyDefaultProps} from '../../../utilities';
+import {applyDefaultProps, StoreConnector} from '../../../utilities';
 import {defaultProps, props} from './employees-grid.props';
 import {styles} from './employees-grid.style';
 
@@ -10,7 +10,7 @@ import '../../atoms/icon';
 import '../../atoms/surface';
 import '../../molecules/employee-card';
 
-export class IngEmployeesGrid extends LitElement {
+export class IngEmployeesGrid extends StoreConnector(LitElement) {
   /** @type import('lit').PropertyDeclarations */
   static properties = {...props};
 
@@ -29,6 +29,8 @@ export class IngEmployeesGrid extends LitElement {
         (employee) => employee.email,
         (employee) => html`<ing-employee-card
           .employee=${employee}
+          .selected=${this.state.selectedEmployees?.includes(employee.email)}
+          @selectionChange=${() => this.state.toggleEmployeeSelection(employee)}
         ></ing-employee-card> `
       )}
     `;

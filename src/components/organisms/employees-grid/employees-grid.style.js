@@ -19,5 +19,15 @@ export const styles = css`
       flex-direction: column;
       align-items: center;
     }
+
+    ing-employee-card {
+      &:nth-child(2n) {
+        justify-self: start;
+      }
+
+      &:nth-child(2n + 1) {
+        justify-self: end;
+      }
+    }
   }
 `;

@@ -1,5 +1,7 @@
-import {LitElement, html} from 'lit';
+import {LitElement, html, nothing} from 'lit';
 import {ContextConsumer} from '@lit/context';
+import {when} from 'lit/directives/when.js';
+import {repeat} from 'lit/directives/repeat.js';
 import {choose} from 'lit/directives/choose.js';
 import {VIEW_MODES} from '../../../models';
 import {Namespaces, StoreConnector, Translatable} from '../../../utilities';
@@ -24,7 +26,8 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
   /** @type import('lit').PropertyDeclarations */
   static properties = {
     _filteredEmployees: {type: Array, state: true},
-    _deletingEmployee: {type: Object, state: true},
+    _selectedEmployees: {type: Array, state: true},
+    _deletingEmployees: {type: Array, state: true},
   };
 
   /** @type import('lit').CSSResultGroup */
@@ -37,6 +40,9 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
         (state.pagination.page - 1) * state.pagination.pageSize,
         state.pagination.page * state.pagination.pageSize
       );
+      this._selectedEmployees = this._filteredEmployees.filter((employee) =>
+        state.selectedEmployees.includes(employee.email)
+      );
     });
   }
 
@@ -44,8 +50,8 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
     this._appContext.value.router.render(`/edit/${employee.email}`, true);
   }
 
-  _onDelete(employee) {
-    this._deletingEmployee = employee;
+  _onDelete(employees) {
+    this._deletingEmployees = employees;
   }
 
   render() {
@@ -55,17 +61,39 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
           slot="header"
           title=${this.t('title', {ns: Namespaces.EMPLOYEE})}
         >
-          <ing-view-mode-selector
-            .viewMode=${this.state.viewMode}
-            @viewModeChange=${({detail}) => this.state.setViewMode(detail)}
-          ></ing-view-mode-selector>
+          <div class=${classNames.header}>
+            ${when(
+              this._selectedEmployees?.length,
+              () => html`<ing-button
+                variant="text"
+                color="primary"
+                @click=${() =>
+                  (this._deletingEmployees = this._selectedEmployees)}
+              >
+                <ing-icon-filled-trash
+                  slot="prefix"
+                  color="secondary"
+                ></ing-icon-filled-trash>
+                ${this.t('delete.multiple-button-text', {
+                  count: this._selectedEmployees?.length ?? 0,
+                  ns: Namespaces.EMPLOYEE,
+                })}
+              </ing-button>`,
+              () => nothing
+            )}
+
+            <ing-view-mode-selector
+              .viewMode=${this.state.viewMode}
+              @viewModeChange=${({detail}) => this.state.setViewMode(detail)}
+            ></ing-view-mode-selector>
+          </div>
         </ing-page-header>
         ${choose(this.state.viewMode, [
           [
             VIEW_MODES.TABLE,
             () => html`<ing-employees-table
               .employees=${this._filteredEmployees}
-              @delete=${(e) => this._onDelete(e.detail)}
+              @delete=${(e) => this._onDelete([e.detail])}
               @edit=${(e) => this._onEdit(e.detail)}
             ></ing-employees-table>`,
           ],
@@ -73,7 +101,7 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
             VIEW_MODES.GRID,
             () => html`<ing-employees-grid
               .employees=${this._filteredEmployees}
-              @delete=${(e) => this._onDelete(e.detail)}
+              @delete=${(e) => this._onDelete([e.detail])}
               @edit=${(e) => this._onEdit(e.detail)}
             ></ing-employees-grid>`,
           ],
@@ -93,13 +121,15 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
         </div>
 
         <ing-confirmation-dialog
-          ?open=${!!this._deletingEmployee}
+          ?open=${!!this._deletingEmployees?.length}
           size="auto"
-          @close=${() => (this._deletingEmployee = undefined)}
-          @cancel=${() => (this._deletingEmployee = undefined)}
+          @close=${() => (this._deletingEmployees = [])}
+          @cancel=${() => (this._deletingEmployees = [])}
           @confirm=${() => {
-            this.state.deleteEmployee(this._deletingEmployee);
-            this._deletingEmployee = undefined;
+            (this._deletingEmployees || []).forEach((employee) => {
+              this.state.deleteEmployee(employee);
+            });
+            this._deletingEmployees = [];
           }}
         >
           <span slot="header">
@@ -107,11 +137,20 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
           </span>
           ${this.t('delete.message', {
             ns: Namespaces.EMPLOYEE,
-            name: [
-              this._deletingEmployee?.firstName,
-              this._deletingEmployee?.lastName,
-            ].join(' '),
+            count: this._deletingEmployees?.length || 0,
           })}
+          <ul>
+            ${repeat(
+              this._deletingEmployees || [],
+              (employee) => employee.email,
+              (employee) =>
+                html`<li>
+                  ${[employee?.firstName, employee?.lastName]
+                    .filter(Boolean)
+                    .join(' ')}
+                </li>`
+            )}
+          </ul>
         </ing-confirmation-dialog>
       </ing-surface>
     `;

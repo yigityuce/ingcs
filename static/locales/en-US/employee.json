@@ -58,6 +58,9 @@
   },
   "delete": {
     "title": "Are you sure?",
-    "message": "Selected employee record of {{name}} will be deleted."
+    "message_one": "Selected employee record will be deleted.",
+    "message_other": "Selected employee records will be deleted.",
+    "multiple-button-text_one": "Delete {{count}} Employee",
+    "multiple-button-text_other": "Delete {{count}} Employees"
   }
 }

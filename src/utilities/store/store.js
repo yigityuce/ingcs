@@ -59,6 +59,7 @@ export const store = createStore(
       setPage: (page) =>
         set((state) => {
           state.pagination = {...state.pagination, page};
+          state.selectedEmployees = [];
         }),
       setPageSize: (pageSize) =>
         set((state) => {
