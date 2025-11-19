@@ -20,6 +20,7 @@ export const styles = css`
     border: none;
     background-color: transparent;
     padding: 0;
+    min-width: inherit;
   }
 
   dialog:focus-visible {

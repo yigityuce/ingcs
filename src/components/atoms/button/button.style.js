@@ -19,6 +19,7 @@ export const styles = css`
     gap: var(--ing-size-gap-medium);
     border-radius: var(--ing-size-radius-medium);
     position: relative;
+    outline: none;
   }
 
   :host([fullWidth]) {
@@ -34,7 +35,7 @@ export const styles = css`
     align-items: inherit;
     justify-content: inherit;
     gap: inherit;
-    border: inherit;
+    border: none;
     border-radius: inherit;
     cursor: inherit;
     white-space: inherit;
@@ -44,6 +45,19 @@ export const styles = css`
 
     .${unsafeCSS(classNames.content)} {
       z-index: 2;
+    }
+
+    &:focus-visible {
+      outline: var(--ing-size-outline-medium) solid var(--ing-color-brand);
+      outline-offset: 3px;
+    }
+  }
+
+  :host([color='secondary']) {
+    button {
+      &:focus-visible {
+        outline-color: var(--ing-color-brand-alt);
+      }
     }
   }
 
@@ -57,14 +71,12 @@ export const styles = css`
   }
 
   :host([variant='outlined'][color='primary']) {
-    outline: 1px solid var(--ing-color-brand);
-    outline-offset: -1px;
+    border: var(--ing-size-outline-small) solid var(--ing-color-brand);
     color: var(--ing-color-brand);
     background-color: transparent;
   }
   :host([variant='outlined'][color='secondary']) {
-    outline: 1px solid var(--ing-color-brand-alt);
-    outline-offset: -1px;
+    border: var(--ing-size-outline-small) solid var(--ing-color-brand-alt);
     color: var(--ing-color-brand-alt);
     background-color: transparent;
   }

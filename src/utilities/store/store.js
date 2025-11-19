@@ -44,10 +44,15 @@ export const store = createStore(
       language: DEFAULT_LANGUAGE.code,
       viewMode: DEFAULT_VIEW_MODE,
       selectedEmployees: [],
+      searchTerm: '',
       pagination: {
         page: 1,
         pageSize: 10,
       },
+      setSearchTerm: (term) =>
+        set((state) => {
+          state.searchTerm = term;
+        }),
       setLanguage: (language) =>
         set((state) => {
           state.language = language;

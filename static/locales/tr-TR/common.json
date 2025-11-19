@@ -8,6 +8,9 @@
     "employeesButton": "Çalışan Listesi",
     "addNewButton": "Yeni Ekle"
   },
+  "search": {
+    "placeholder": "Çalışan ara..."
+  },
   "errorMessages": {
     "requiredField": "Bu alan zorunludur",
     "invalidEmail": "Geçersiz e-posta adresi",
@@ -24,6 +27,7 @@
     "emailAlreadyExists": "Bu e-posta zaten kayıtlı",
     "phoneAlreadyExists": "Bu telefon numarası zaten kayıtlı",
     "employmentDateInFuture": "İşe başlama tarihi gelecekte olamaz",
-    "employmentDateBeforeDOB": "İşe başlama tarihi doğum tarihinden önce olamaz"
+    "employmentDateBeforeDOB": "İşe başlama tarihi doğum tarihinden önce olamaz",
+    "employeeNotFound": "Çalışan bulunamadı. Lütfen arama kriterlerinizi değiştirin."
   }
 }

@@ -1,8 +1,9 @@
 import {LitElement, html} from 'lit';
 import {repeat} from 'lit/directives/repeat.js';
+import {when} from 'lit/directives/when.js';
 import {applyDefaultProps, StoreConnector} from '../../../utilities';
 import {defaultProps, props} from './employees-grid.props';
-import {styles} from './employees-grid.style';
+import {classNames, styles} from './employees-grid.style';
 
 import '../../atoms/typography';
 import '../../atoms/icon-button';
@@ -24,14 +25,24 @@ export class IngEmployeesGrid extends StoreConnector(LitElement) {
 
   render() {
     return html`
-      ${repeat(
-        this.employees ?? [],
-        (employee) => employee.email,
-        (employee) => html`<ing-employee-card
-          .employee=${employee}
-          .selected=${this.state.selectedEmployees?.includes(employee.email)}
-          @selectionChange=${() => this.state.toggleEmployeeSelection(employee)}
-        ></ing-employee-card> `
+      ${when(
+        (this.employees ?? []).length,
+        () =>
+          repeat(
+            this.employees ?? [],
+            (employee) => employee.email,
+            (employee) => html`<ing-employee-card
+              .employee=${employee}
+              .selected=${this.state.selectedEmployees?.includes(
+                employee.email
+              )}
+              @selectionChange=${() =>
+                this.state.toggleEmployeeSelection(employee)}
+            ></ing-employee-card> `
+          ),
+        () => html`<div class=${classNames.empty}>
+          <slot name="empty"></slot>
+        </div>`
       )}
     `;
   }

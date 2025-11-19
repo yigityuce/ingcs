@@ -44,6 +44,7 @@ export class IngInput extends Translatable(LitElement) {
   }
 
   _onInput(event) {
+    event.stopPropagation();
     this._touched = true;
     this._value = event.target.value;
     if ((this.validationTrigger || []).includes(VALIDATION_TRIGGER.INPUT)) {
@@ -57,6 +58,7 @@ export class IngInput extends Translatable(LitElement) {
   }
 
   _onChange(event) {
+    event.stopPropagation();
     this._touched = true;
     this._value = event.target.value;
     if ((this.validationTrigger || []).includes(VALIDATION_TRIGGER.CHANGE)) {

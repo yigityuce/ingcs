@@ -54,6 +54,11 @@
   --ing-color-grey-900: #212121;
 
   /* BASE TOKENS > SIZE > SPACING */
+  --ing-size-outline-small: 0.0625rem;
+  --ing-size-outline-medium: 0.125rem;
+  --ing-size-outline-large: 0.25rem;
+
+  /* BASE TOKENS > SIZE > SPACING */
   --ing-size-spacing-2x-small: 0.25rem;
   --ing-size-spacing-x-small: 0.5rem;
   --ing-size-spacing-small: 0.75rem;

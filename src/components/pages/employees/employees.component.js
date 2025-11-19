@@ -11,7 +11,9 @@ import {classNames, styles} from './employees.style';
 import '../../atoms/dialog';
 import '../../atoms/typography';
 import '../../atoms/button';
+import '../../atoms/input';
 import '../../atoms/icon-button';
+import '../../atoms/no-data';
 import '../../molecules/pagination';
 import '../../molecules/page-header';
 import '../../molecules/view-mode-selector';
@@ -36,10 +38,18 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
   constructor() {
     super();
     this.connectStore((state) => {
-      this._filteredEmployees = state.employees.slice(
-        (state.pagination.page - 1) * state.pagination.pageSize,
-        state.pagination.page * state.pagination.pageSize
-      );
+      this._filteredEmployees = state.employees
+        .filter((employee) =>
+          state.searchTerm
+            ? !!Object.values(employee)
+                .map((data) => `${data}`.toLowerCase())
+                .find((data) => data.includes(state.searchTerm.toLowerCase()))
+            : true
+        )
+        .slice(
+          (state.pagination.page - 1) * state.pagination.pageSize,
+          state.pagination.page * state.pagination.pageSize
+        );
       this._selectedEmployees = this._filteredEmployees.filter((employee) =>
         state.selectedEmployees.includes(employee.email)
       );
@@ -52,6 +62,16 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
 
   _onDelete(employees) {
     this._deletingEmployees = employees;
+  }
+
+  _renderEmpty() {
+    return html`<ing-no-data slot="empty"
+      ><ing-typography variant="body2" color="disabled" strong
+        >${this.t('errorMessages.employeeNotFound', {
+          ns: Namespaces.COMMON,
+        })}</ing-typography
+      ></ing-no-data
+    >`;
   }
 
   render() {
@@ -67,11 +87,12 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
               () => html`<ing-button
                 variant="text"
                 color="primary"
+                class=${classNames.deleteButton}
                 @click=${() =>
                   (this._deletingEmployees = this._selectedEmployees)}
               >
                 <ing-icon-filled-trash
-                  slot="prefix"
+                  slot="suffix"
                   color="secondary"
                 ></ing-icon-filled-trash>
                 ${this.t('delete.multiple-button-text', {
@@ -81,7 +102,15 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
               </ing-button>`,
               () => nothing
             )}
-
+            <ing-input
+              type="text"
+              class=${classNames.searchBar}
+              placeholder=${this.t('search.placeholder', {
+                ns: Namespaces.COMMON,
+              })}
+              .initialValue=${this.state.searchTerm}
+              @input=${({detail}) => this.state.setSearchTerm(detail)}
+            ></ing-input>
             <ing-view-mode-selector
               .viewMode=${this.state.viewMode}
               @viewModeChange=${({detail}) => this.state.setViewMode(detail)}
@@ -95,7 +124,9 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
               .employees=${this._filteredEmployees}
               @delete=${(e) => this._onDelete([e.detail])}
               @edit=${(e) => this._onEdit(e.detail)}
-            ></ing-employees-table>`,
+            >
+              ${this._renderEmpty()}
+            </ing-employees-table>`,
           ],
           [
             VIEW_MODES.GRID,
@@ -103,7 +134,9 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
               .employees=${this._filteredEmployees}
               @delete=${(e) => this._onDelete([e.detail])}
               @edit=${(e) => this._onEdit(e.detail)}
-            ></ing-employees-grid>`,
+            >
+              ${this._renderEmpty()}
+            </ing-employees-grid>`,
           ],
         ])}
 

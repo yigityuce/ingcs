@@ -35,9 +35,8 @@ export const styles = css`
 
   .${unsafeCSS(classNames.assistiveText)} {
     grid-area: assistive-text;
-    min-height: 1rem;
-    margin-top: var(--ing-size-gap-small);
     color: var(--ing-color-text-disabled);
+    margin-top: var(--ing-size-gap-small);
   }
 
   .${unsafeCSS(classNames.native)} {

@@ -5,6 +5,14 @@ export const classNames = {
 };
 
 export const styles = css`
+  :host {
+    display: contents;
+  }
+
+  ing-dialog {
+    min-width: 300px;
+  }
+
   .${unsafeCSS(classNames.footer)} {
     display: flex;
     flex-direction: column;

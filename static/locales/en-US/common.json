@@ -8,6 +8,9 @@
     "employeesButton": "Employees",
     "addNewButton": "Add New"
   },
+  "search": {
+    "placeholder": "Search employees..."
+  },
   "errorMessages": {
     "requiredField": "This field is required",
     "invalidEmail": "Invalid email address",
@@ -24,6 +27,7 @@
     "emailAlreadyExists": "This email is already registered",
     "phoneAlreadyExists": "This phone number is already registered",
     "employmentDateInFuture": "Date of Employment cannot be in the future",
-    "employmentDateBeforeDOB": "Employment date cannot be before date of birth"
+    "employmentDateBeforeDOB": "Employment date cannot be before date of birth",
+    "employeeNotFound": "Employee not found. Please change the search criteria."
   }
 }

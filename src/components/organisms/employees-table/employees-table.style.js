@@ -6,19 +6,22 @@ export const classNames = {
   cell: 'cell',
   tableHeader: 'table-header',
   actions: 'actions',
+  empty: 'empty',
 };
 
 export const styles = css`
   :host {
+    --col-count: 10;
     display: flex;
     flex-direction: column;
     max-height: 100%;
+    flex-grow: 1;
     overflow: hidden;
   }
 
   .${unsafeCSS(classNames.table)} {
     display: grid;
-    grid-template-columns: min-content repeat(8, 1fr) min-content;
+    grid-template-columns: min-content repeat(calc(var(--col-count) - 2), 1fr) min-content;
     column-gap: var(--ing-size-gap-x-large);
     position: relative;
     overflow: auto;
@@ -30,7 +33,7 @@ export const styles = css`
     height: fit-content;
     display: grid;
     grid-template-columns: subgrid;
-    grid-column: span 10;
+    grid-column: span var(--col-count);
     border-bottom: 1px solid var(--ing-color-grey-200);
     place-items: center;
     padding: var(--ing-size-spacing-large);
@@ -47,5 +50,18 @@ export const styles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+
+  .${unsafeCSS(classNames.empty)} {
+    grid-column: span var(--col-count);
+    place-self: center;
+    padding: var(--ing-size-spacing-large);
+    display: flex;
+    box-sizing: border-box;
+    place-self: center;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    max-width: 100%;
   }
 `;
