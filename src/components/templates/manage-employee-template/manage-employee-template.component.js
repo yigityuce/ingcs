@@ -21,17 +21,17 @@ export class IngManageEmployeeTemplate extends Translatable(LitElement) {
       paddingSize="x-large"
       gapSize="x-large"
     >
-      <ing-page-header
-        slot="header"
-        title=${this.employee
-          ? this.t('edit.title', {
-              ns: Namespaces.EMPLOYEE,
-              name: [this.employee.firstName, this.employee.lastName]
-                .filter(Boolean)
-                .join(' '),
-            })
-          : this.t('add.title', {ns: Namespaces.EMPLOYEE})}
-      >
+      <ing-page-header slot="header">
+        <ing-typography variant="title4" color="secondary">
+          ${this.employee
+            ? this.t('edit.title', {
+                ns: Namespaces.EMPLOYEE,
+                name: [this.employee.firstName, this.employee.lastName]
+                  .filter(Boolean)
+                  .join(' '),
+              })
+            : this.t('add.title', {ns: Namespaces.EMPLOYEE})}
+        </ing-typography>
       </ing-page-header>
       <ing-surface withBackground withBorderRadius paddingSize="small">
         <ing-employee-form .employee=${this.employee}> </ing-employee-form>

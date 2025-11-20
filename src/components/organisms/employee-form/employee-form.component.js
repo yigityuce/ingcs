@@ -190,6 +190,7 @@ export class IngEmployeeAddEditForm extends StoreConnector(
           })}
           .initialValue=${this.employee?.phoneNumber ?? ''}
           .customValidator=${(input) => {
+            // TODO: format and validate phone number properly
             if (
               this.state.employees.some(
                 (emp) => emp.phoneNumber === input.value

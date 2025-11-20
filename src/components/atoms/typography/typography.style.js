@@ -4,7 +4,7 @@ export const styles = css`
   :host {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
-      sans-serif; // TODO: Change to the correct font family
+      sans-serif;
   }
 
   :host(:focus-visible) {

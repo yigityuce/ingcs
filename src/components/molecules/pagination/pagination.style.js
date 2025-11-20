@@ -11,6 +11,7 @@ export const style = css`
     flex-direction: row;
     align-items: center;
     gap: var(--ing-size-gap-medium);
+    user-select: none;
   }
 
   .${unsafeCSS(classNames.item)} {

@@ -77,11 +77,11 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
   render() {
     return html`
       <ing-surface footerSeparator paddingSize="x-large" gapSize="x-large">
-        <ing-page-header
-          slot="header"
-          title=${this.t('title', {ns: Namespaces.EMPLOYEE})}
-        >
-          <div class=${classNames.header}>
+        <ing-page-header slot="header">
+          <div slot="title" class=${classNames.pageTitle}>
+            <ing-typography variant="title4" color="secondary">
+              ${this.t('title', {ns: Namespaces.EMPLOYEE})}
+            </ing-typography>
             ${when(
               this._selectedEmployees?.length,
               () => html`<ing-button
@@ -102,6 +102,8 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
               </ing-button>`,
               () => nothing
             )}
+          </div>
+          <div class=${classNames.pageActions}>
             <ing-input
               type="text"
               class=${classNames.searchBar}

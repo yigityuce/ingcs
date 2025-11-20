@@ -61,7 +61,7 @@ export class IngPagination extends LitElement {
         ? [this.totalPages]
         : [];
 
-      // TODO: simplify the logic above
+      // TODO: simplify the logic above, also add first and last pages
     }
   }
 

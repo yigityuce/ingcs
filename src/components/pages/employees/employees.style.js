@@ -1,7 +1,9 @@
 import {css, unsafeCSS} from 'lit';
+import {responsiveMediaQuery, SCREEN} from '../../../utilities';
 
 export const classNames = {
-  header: 'header',
+  pageTitle: 'page-title',
+  pageActions: 'page-actions',
   footer: 'footer',
   deleteButton: 'delete-button',
   searchBar: 'search-bar',
@@ -23,20 +25,48 @@ export const styles = css`
     padding-top: var(--ing-size-spacing-medium);
   }
 
-  .${unsafeCSS(classNames.header)} {
+  .${unsafeCSS(classNames.pageTitle)} {
+    display: flex;
+    align-items: center;
+    gap: var(--ing-size-gap-x-large);
+    min-height: 3rem;
+
+    ${responsiveMediaQuery(SCREEN.MOBILE)} {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    ${responsiveMediaQuery(SCREEN.TABLET)} {
+      flex-grow: 1;
+      width: 100%;
+    }
+  }
+
+  .${unsafeCSS(classNames.pageActions)} {
+    flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--ing-size-gap-medium);
-
-    .${unsafeCSS(classNames.deleteButton)} {
-      margin-left: 1rem;
-      margin-right: auto;
-    }
+    gap: var(--ing-size-gap-x-large);
 
     .${unsafeCSS(classNames.searchBar)} {
-      margin-right: 1rem;
       min-width: 200px;
+    }
+
+    ${responsiveMediaQuery(SCREEN.MOBILE)} {
+      flex-direction: column;
+      width: 100%;
+
+      .${unsafeCSS(classNames.searchBar)} {
+        width: 100%;
+      }
+    }
+    ${responsiveMediaQuery(SCREEN.TABLET)} {
+      width: 100%;
+
+      .${unsafeCSS(classNames.searchBar)} {
+        width: 100%;
+      }
     }
   }
 

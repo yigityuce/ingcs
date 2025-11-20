@@ -2,11 +2,10 @@ import {LitElement, html} from 'lit';
 import {VIEW_MODES} from '../../../models';
 import {applyDefaultProps, Translatable} from '../../../utilities';
 import {styles} from './view-mode-selector.style';
-import {props} from './view-mode-selector.props';
+import {defaultProps, props} from './view-mode-selector.props';
 
 import '../../atoms/icon-button';
 import '../../../icons';
-import {defaultProps} from '../page-header';
 
 export class IngViewModeSelector extends Translatable(LitElement) {
   /** @type import('lit').PropertyDeclarations */

@@ -1,18 +1,19 @@
 import {css} from 'lit';
+import {responsiveMediaQuery, SCREEN} from '../../../utilities';
 
 export const style = css`
   :host {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: var(--ing-size-gap-medium);
-  }
+    gap: var(--ing-size-gap-x-large);
 
-  ::slotted([slot='prefix']),
-  ::slotted([slot='suffix']) {
-    flex-shrink: 1;
-  }
-  ::slotted(:not([slot])) {
-    flex-grow: 1;
+    ${responsiveMediaQuery(SCREEN.MOBILE)} {
+      flex-direction: column;
+    }
+
+    ${responsiveMediaQuery(SCREEN.TABLET)} {
+      flex-direction: column;
+    }
   }
 `;
