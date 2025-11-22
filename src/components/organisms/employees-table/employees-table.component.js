@@ -1,4 +1,3 @@
-import {maskitoTransform} from '@maskito/core';
 import {LitElement, html} from 'lit';
 import {repeat} from 'lit/directives/repeat.js';
 import {when} from 'lit/directives/when.js';
@@ -6,7 +5,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {
   applyDefaultProps,
   formatDate,
-  MASK_PHONE,
+  formatPhoneNumber,
   Namespaces,
   StoreConnector,
   Translatable,
@@ -55,20 +54,22 @@ export class IngEmployeesTable extends StoreConnector(
     return html`
           <div class=${classNames.row}>
             <div class=${classNames.cell}>
-              <ing-checkbox .state=${
-                this.state.selectedEmployees?.includes(employee.email)
-                  ? 'checked'
-                  : 'unchecked'
-              }
-			 	@stateChange=${() => this.state.toggleEmployeeSelection(employee)} 
-			  ></ing-checkbox>
+              <ing-checkbox 
+                .state=${
+                  this.state.selectedEmployees?.includes(employee.email)
+                    ? 'checked'
+                    : 'unchecked'
+                }
+                @stateChange=${() =>
+                  this.state.toggleEmployeeSelection(employee)}>
+            </ing-checkbox>
             </div>
             <ing-typography class=${classNames.cell} strong noWrap>
               ${employee.firstName}
             </ing-typography>
             <ing-typography class=${classNames.cell} strong noWrap> 
-            ${employee.lastName} 
-        </ing-typography>
+              ${employee.lastName} 
+            </ing-typography>
             <ing-typography class=${classNames.cell} noWrap>
               ${formatDate(
                 typeof employee.dateOfEmployment === 'string'
@@ -84,36 +85,35 @@ export class IngEmployeesTable extends StoreConnector(
               )}
             </ing-typography>
             <ing-typography class=${classNames.cell} noWrap>
-              ${maskitoTransform(employee?.phoneNumber || '', {
-                mask: MASK_PHONE,
-              })}
+              ${formatPhoneNumber(employee?.phoneNumber || '')}
             </ing-typography>
-            <ing-typography class=${classNames.cell} noWrap> ${
-      employee.email
-    } </ing-typography>
+            <ing-typography class=${classNames.cell} noWrap> 
+              ${employee.email} 
+            </ing-typography>
             <ing-typography class=${classNames.cell} noWrap>
               ${employee.department}
             </ing-typography>
-            <ing-typography class=${classNames.cell} noWrap> ${
-      employee.position
-    } </ing-typography>
+            <ing-typography class=${classNames.cell} noWrap> 
+              ${employee.position} 
+            </ing-typography>
             <div class=${classNames.cell}>
-                <div class=${classNames.actions}>
-                    <ing-icon-button @click=${() =>
-                      this.dispatchEvent(
-                        new CustomEvent('edit', {detail: employee})
-                      )}>
-                        <ing-icon-outlined-edit-square color="secondary" size="medium" /></ing-icon-outlined-edit-square>
-                    </ing-icon-button>
+              <div class=${classNames.actions}>
+                <ing-icon-button @click=${() =>
+                  this.dispatchEvent(
+                    new CustomEvent('edit', {detail: employee})
+                  )}
+                >
+                  <ing-icon-outlined-edit-square color="secondary" size="medium" /></ing-icon-outlined-edit-square>
+                </ing-icon-button>
 
-                    <ing-icon-button @click=${() =>
-                      this.dispatchEvent(
-                        new CustomEvent('delete', {detail: employee})
-                      )}>
-                        <ing-icon-filled-trash color="secondary" size="medium" /></ing-icon-filled-trash>
-                    </ing-icon-button>
-                </div>
-                </div>
+                <ing-icon-button @click=${() =>
+                  this.dispatchEvent(
+                    new CustomEvent('delete', {detail: employee})
+                  )}>
+                  <ing-icon-filled-trash color="secondary" size="medium" /></ing-icon-filled-trash>
+                </ing-icon-button>
+              </div>
+            </div>
           </div>
         `;
   }

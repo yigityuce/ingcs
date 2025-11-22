@@ -40,6 +40,15 @@ export class IngNavigationBar extends StoreConnector(Translatable(LitElement)) {
         </ing-typography>
       </div>
       <div class=${classNames.links}>
+        <!-- <ing-button
+          variant="outlined"
+          color="primary"
+          @click=${() => {
+          this.state.reinitEmployees();
+        }}
+        >
+          ${this.t('navigationBar.feedDataButton', {ns: Namespaces.COMMON})}
+        </ing-button> -->
         <ing-button
           variant="text"
           color="primary"

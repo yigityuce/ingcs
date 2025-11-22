@@ -6,7 +6,7 @@ import {createRef, ref} from 'lit/directives/ref.js';
 import {choose} from 'lit/directives/choose.js';
 
 export class IngCheckbox extends LitElement {
-  /** @type {import('lit/directives/ref.js').Ref<HTMLElement>} */
+  /** @type {import('lit/directives/ref.js').Ref<HTMLInputElement>} */
   _inputRef = createRef();
 
   /** @type import('lit').PropertyDeclarations */

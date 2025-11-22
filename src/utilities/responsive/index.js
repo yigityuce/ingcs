@@ -1,1 +1,1 @@
-export * from './responsive.util.js';
+export * from './responsive.utils.js';

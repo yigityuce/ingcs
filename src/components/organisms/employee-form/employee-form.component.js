@@ -1,9 +1,15 @@
-import {format, intervalToDuration, isBefore, isFuture} from 'date-fns';
 import {LitElement, html} from 'lit';
+import {format, intervalToDuration, isBefore, isFuture} from 'date-fns';
+import {maskitoPhoneOptionsGenerator} from '@maskito/phone';
+import metadata from 'libphonenumber-js/min/metadata';
+import {isValidPhoneNumber} from 'libphonenumber-js';
 import {live} from 'lit/directives/live.js';
 import {createRef, ref} from 'lit/directives/ref.js';
+import {DEPARTMENT, POSITION} from '../../../models';
+import {MIN_AGE} from '../../../constants';
 import {
   applyDefaultProps,
+  formatPhoneNumber,
   Namespaces,
   parseDate,
   StoreConnector,
@@ -18,7 +24,6 @@ import '../../atoms/icon';
 import '../../atoms/surface';
 import '../../atoms/input';
 import '../../atoms/button';
-import {DEPARTMENT, POSITION} from '../../../models';
 
 export class IngEmployeeAddEditForm extends StoreConnector(
   Translatable(LitElement)
@@ -123,10 +128,10 @@ export class IngEmployeeAddEditForm extends StoreConnector(
               start: value,
               end: new Date(),
             });
-            if (duration.years < 18) {
+            if (duration.years < MIN_AGE) {
               return this.t('errorMessages.ageRestriction', {
                 ns: Namespaces.COMMON,
-                minAge: 18,
+                minAge: MIN_AGE,
               });
             }
           }}
@@ -188,15 +193,26 @@ export class IngEmployeeAddEditForm extends StoreConnector(
           placeholder=${this.t('fields.phone.placeholder', {
             ns: Namespaces.EMPLOYEE,
           })}
-          .initialValue=${this.employee?.phoneNumber ?? ''}
+          .initialValue=${formatPhoneNumber(this.employee?.phoneNumber ?? '')}
+          .maskOptions=${maskitoPhoneOptionsGenerator({
+            metadata,
+            separator: ' ',
+          })}
           .customValidator=${(input) => {
-            // TODO: format and validate phone number properly
             if (
               this.state.employees.some(
-                (emp) => emp.phoneNumber === input.value
+                (emp) =>
+                  emp.phoneNumber === input.value &&
+                  emp.phoneNumber !== this.employee?.phoneNumber
               )
             ) {
               return this.t('errorMessages.phoneAlreadyExists', {
+                ns: Namespaces.COMMON,
+              });
+            }
+
+            if (!isValidPhoneNumber(input.value)) {
+              return this.t('errorMessages.invalidPhone', {
                 ns: Namespaces.COMMON,
               });
             }
@@ -221,7 +237,13 @@ export class IngEmployeeAddEditForm extends StoreConnector(
           })}
           .initialValue=${live(this.employee?.email ?? '')}
           .customValidator=${(input) => {
-            if (this.state.employees.some((emp) => emp.email === input.value)) {
+            if (
+              this.state.employees.some(
+                (emp) =>
+                  emp.email === input.value &&
+                  emp.email !== this.employee?.email
+              )
+            ) {
               return this.t('errorMessages.emailAlreadyExists', {
                 ns: Namespaces.COMMON,
               });

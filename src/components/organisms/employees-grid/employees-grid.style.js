@@ -1,5 +1,6 @@
 import {css, unsafeCSS} from 'lit';
-import {responsiveMediaQuery, SCREEN} from '../../../utilities';
+import {responsiveMediaQuery} from '../../../utilities';
+import {SCREEN} from '../../../constants';
 
 export const classNames = {
   empty: 'empty',

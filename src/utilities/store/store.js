@@ -1,4 +1,5 @@
 import {createStore} from 'zustand/vanilla';
+import {isValidPhoneNumber} from 'libphonenumber-js';
 import {faker} from '@faker-js/faker';
 import {immer} from 'zustand/middleware/immer';
 import {createJSONStorage, persist} from 'zustand/middleware';
@@ -8,6 +9,17 @@ import {
   DEPARTMENT,
   POSITION,
 } from '../../models';
+
+const generateValidPhoneNumber = (generator = () => undefined) => {
+  let iteration = 0;
+  while (iteration < 100) {
+    const generated = generator();
+    if (isValidPhoneNumber(generated)) {
+      return generated;
+    }
+  }
+  return generator();
+};
 
 /** @param {number} count */
 const createEmployees = (count) => {
@@ -27,8 +39,14 @@ const createEmployees = (count) => {
         firstName,
         lastName,
         dateOfEmployment: faker.date.past(10),
-        dateOfBirth: faker.date.birthdate({min: 25, max: 50, mode: 'age'}),
-        phoneNumber: faker.phone.number({style: 'international'}),
+        dateOfBirth: faker.date.birthdate({
+          min: 25,
+          max: 50,
+          mode: 'age',
+        }),
+        phoneNumber: generateValidPhoneNumber(() =>
+          faker.phone.number({style: 'international'})
+        ),
         department: faker.helpers.arrayElement(Object.values(DEPARTMENT)),
         position: faker.helpers.arrayElement(Object.values(POSITION)),
       };

@@ -1,14 +1,22 @@
 import {LitElement, html} from 'lit';
+import {Maskito} from '@maskito/core';
 import {choose} from 'lit/directives/choose.js';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {classMap} from 'lit/directives/class-map.js';
+import {createRef, ref} from 'lit/directives/ref.js';
 import {applyDefaultProps, Namespaces, Translatable} from '../../../utilities';
 import {VALIDATION_TRIGGER} from '../../../models';
 import {classNames, styles} from './input.style';
 import {defaultProps, props} from './input.props';
 
 export class IngInput extends Translatable(LitElement) {
+  /** @type {import('lit/directives/ref.js').Ref<HTMLInputElement>} */
+  _inputElement = createRef();
+
+  /** @type {import('@maskito/core').Maskito | null} */
+  _maskitoInstance = null;
+
   static get formAssociated() {
     return true;
   }
@@ -36,11 +44,33 @@ export class IngInput extends Translatable(LitElement) {
     this.internals.setFormValue(this._value);
   }
 
+  updated(changedProperties) {
+    if (
+      changedProperties.has('maskOptions') ||
+      changedProperties.has('_inputElement')
+    ) {
+      this._maskitoInstance?.destroy();
+      if (this.maskOptions && this._inputElement.value) {
+        this._maskitoInstance = new Maskito(
+          this._inputElement.value,
+          this.maskOptions
+        );
+      }
+    }
+
+    this._validate();
+  }
+
   firstUpdated(...args) {
     super.firstUpdated(...args);
     this._value = this.initialValue || '';
     this.internals.setFormValue(this._initialValue);
     this._validate();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._maskitoInstance?.destroy();
   }
 
   _onInput(event) {
@@ -118,31 +148,33 @@ export class IngInput extends Translatable(LitElement) {
 
   _validate() {
     /** @type {HTMLInputElement | HTMLSelectElement} */
-    const input = this.shadowRoot.querySelector(`.${classNames.native}`);
+    const input = this._inputElement.value;
 
-    if (this._touched) {
-      if (this.customValidator) {
-        const result = this.customValidator(input, this.internals.form);
-        if (result) {
-          this.internals.setValidity({customError: true}, result, input);
-          return;
-        }
+    if (!input) {
+      return;
+    }
+
+    if (this.customValidator) {
+      const result = this.customValidator(input, this.internals.form);
+      if (result) {
+        this.internals.setValidity({customError: true}, result, input);
+        return;
       }
+    }
 
-      const validity =
-        this._value === '' && this.required
-          ? {valueMissing: true}
-          : input.validity;
+    const validity =
+      this._value === '' && this.required
+        ? {valueMissing: true}
+        : input.validity;
 
-      if (validity.valid) {
-        this.internals.setValidity({});
-      } else {
-        this.internals.setValidity(
-          input.validity,
-          this._validationMessage(validity),
-          input
-        );
-      }
+    if (validity.valid) {
+      this.internals.setValidity({});
+    } else {
+      this.internals.setValidity(
+        validity,
+        this._validationMessage(validity),
+        input
+      );
     }
   }
 
@@ -157,7 +189,8 @@ export class IngInput extends Translatable(LitElement) {
               <select
                 class=${classMap({
                   [classNames.native]: true,
-                  [classNames.invalid]: !this.internals.validity.valid,
+                  [classNames.invalid]:
+                    !this.internals.validity.valid && this._touched,
                 })}
                 name=${this.name}
                 ?required=${this.required}
@@ -183,9 +216,11 @@ export class IngInput extends Translatable(LitElement) {
           ],
         ],
         () => html`<input
+          ${ref(this._inputElement)}
           class=${classMap({
             [classNames.native]: true,
-            [classNames.invalid]: !this.internals.validity.valid,
+            [classNames.invalid]:
+              !this.internals.validity.valid && this._touched,
           })}
           .type=${this.type}
           .name=${this.name}
@@ -222,9 +257,9 @@ export class IngInput extends Translatable(LitElement) {
         class=${classNames.assistiveText}
       >
         ${when(
-          this.internals.validity.valid,
-          () => html`<slot name="assistive-text"></slot>`,
-          () => html`${this.internals.validationMessage}`
+          !this.internals.validity.valid && this._touched,
+          () => html`${this.internals.validationMessage}`,
+          () => html`<slot name="assistive-text"></slot>`
         )}
       </ing-typography>
     </label>`;

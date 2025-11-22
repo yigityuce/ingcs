@@ -1,5 +1,6 @@
 import {css, unsafeCSS} from 'lit';
-import {responsiveMediaQuery, SCREEN} from '../../../utilities';
+import {responsiveMediaQuery} from '../../../utilities';
+import {SCREEN} from '../../../constants';
 
 export const classNames = {
   actions: 'actions',
@@ -26,7 +27,7 @@ export const styles = css`
 
     ${responsiveMediaQuery(SCREEN.MOBILE)} {
       grid-template-columns: repeat(1, 1fr);
-      gap: calc(1 * var(--ing-size-gap-x-large));
+      gap: calc(2 * var(--ing-size-gap-x-large));
     }
 
     ${responsiveMediaQuery(SCREEN.TABLET)} {

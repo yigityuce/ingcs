@@ -17,6 +17,7 @@ export const props = {
   options: {type: Array, attribute: false}, // Array<{ value: string, label: TemplateResult<1> }>
   validationTrigger: {type: Array, attribute: false}, // e.g., 'input', 'change', 'blur'
   customValidator: {type: Function, attribute: false}, // (input: HTMLInputElement | HTMLSelectElement, form: HTMLFormElement) => string | null
+  maskOptions: {type: Object, attribute: false}, // Options for input masking, @type import('@maskito/core').MaskitoOptions
 };
 
 export const defaultProps = {
@@ -35,4 +36,5 @@ export const defaultProps = {
   max: undefined,
   pattern: undefined,
   step: undefined,
+  maskOptions: undefined,
 };

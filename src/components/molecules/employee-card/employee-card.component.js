@@ -1,10 +1,9 @@
 import {LitElement, html} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {maskitoTransform} from '@maskito/core';
 import {
   applyDefaultProps,
   formatDate,
-  MASK_PHONE,
+  formatPhoneNumber,
   Namespaces,
   Translatable,
 } from '../../../utilities';
@@ -104,9 +103,7 @@ export class IngEmployeeCard extends Translatable(LitElement) {
               })}
             </ing-typography>
             <ing-typography color="primary" strong>
-              ${maskitoTransform(this.employee?.phoneNumber || '', {
-                mask: MASK_PHONE,
-              })}
+              ${formatPhoneNumber(this.employee?.phoneNumber || '')}
             </ing-typography>
           </div>
 

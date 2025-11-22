@@ -5,6 +5,7 @@
   "delete": "Delete",
   "proceed": "Proceed",
   "navigationBar": {
+    "feedDataButton": "Feed Data",
     "employeesButton": "Employees",
     "addNewButton": "Add New"
   },

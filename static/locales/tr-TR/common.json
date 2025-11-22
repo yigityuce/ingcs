@@ -5,6 +5,7 @@
   "delete": "Sil",
   "proceed": "Devam Et",
   "navigationBar": {
+    "feedDataButton": "Veri Yükle",
     "employeesButton": "Çalışan Listesi",
     "addNewButton": "Yeni Ekle"
   },

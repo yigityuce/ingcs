@@ -1,5 +1,6 @@
 import {css, unsafeCSS} from 'lit';
-import {responsiveMediaQuery, SCREEN} from '../../../utilities';
+import {responsiveMediaQuery} from '../../../utilities';
+import {SCREEN} from '../../../constants';
 
 export const classNames = {
   pageTitle: 'page-title',
@@ -37,7 +38,6 @@ export const styles = css`
     }
 
     ${responsiveMediaQuery(SCREEN.TABLET)} {
-      flex-grow: 1;
       width: 100%;
     }
   }
