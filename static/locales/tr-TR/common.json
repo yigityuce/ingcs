@@ -29,6 +29,7 @@
     "phoneAlreadyExists": "Bu telefon numarası zaten kayıtlı",
     "employmentDateInFuture": "İşe başlama tarihi gelecekte olamaz",
     "employmentDateBeforeDOB": "İşe başlama tarihi doğum tarihinden önce olamaz",
-    "employeeNotFound": "Çalışan bulunamadı. Lütfen arama kriterlerinizi değiştirin."
+    "employeeNotFound": "Çalışan bulunamadı. Lütfen arama kriterlerinizi değiştirin.",
+    "pageNotFound": "Aradığınız sayfa bulunamadı."
   }
 }

@@ -29,6 +29,7 @@
     "phoneAlreadyExists": "This phone number is already registered",
     "employmentDateInFuture": "Date of Employment cannot be in the future",
     "employmentDateBeforeDOB": "Employment date cannot be before date of birth",
-    "employeeNotFound": "Employee not found. Please change the search criteria."
+    "employeeNotFound": "Employee not found. Please change the search criteria.",
+    "pageNotFound": "The page you are looking for could not be found."
   }
 }

@@ -60,8 +60,6 @@ export class IngPagination extends LitElement {
       this._rightButtons = !this._middleButtons.includes(this.totalPages)
         ? [this.totalPages]
         : [];
-
-      // TODO: simplify the logic above, also add first and last pages
     }
   }
 
@@ -106,49 +104,30 @@ export class IngPagination extends LitElement {
         >
         </ing-icon-outlined-chevron-left>
       </ing-icon-button>
-      ${when(
-        this._leftButtons.length > 0,
-        () =>
-          html`${repeat(
-            this._leftButtons,
-            (i) => i,
-            (i) => html`${this._pageNumberRenderer(i)}`
-          )}`,
-        () => html``
+      ${repeat(
+        this._leftButtons,
+        (i) => i,
+        (i) => html`${this._pageNumberRenderer(i)}`
       )}
       ${when(
-        this._leftButtons.length &&
-          this._leftButtons[this._leftButtons.length - 1] + 1 !==
-            this._middleButtons[0],
+        this._middleButtons[0] - this._leftButtons.slice(-1)[0] > 1,
         () => html`<ing-icon-button disabled>...</ing-icon-button>`,
         () => html``
       )}
-      ${when(
-        this._middleButtons.length > 0,
-        () =>
-          html`${repeat(
-            this._middleButtons,
-            (i) => i,
-            (i) => html`${this._pageNumberRenderer(i)}`
-          )}`,
-        () => html``
+      ${repeat(
+        this._middleButtons,
+        (i) => i,
+        (i) => html`${this._pageNumberRenderer(i)}`
       )}
       ${when(
-        this._rightButtons.length &&
-          this._rightButtons[0] - 1 !==
-            this._middleButtons[this._middleButtons.length - 1],
+        this._rightButtons[0] - this._middleButtons.slice(-1)[0] > 1,
         () => html`<ing-icon-button disabled>...</ing-icon-button>`,
         () => html``
       )}
-      ${when(
-        this._rightButtons.length > 0,
-        () =>
-          html`${repeat(
-            this._rightButtons,
-            (i) => i,
-            (i) => html`${this._pageNumberRenderer(i)}`
-          )}`,
-        () => html``
+      ${repeat(
+        this._rightButtons,
+        (i) => i,
+        (i) => html`${this._pageNumberRenderer(i)}`
       )}
       <ing-icon-button
         ?disabled=${this.currentPage === this.totalPages}

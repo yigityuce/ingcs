@@ -63,7 +63,6 @@ export const store = createStore(
       viewMode: DEFAULT_VIEW_MODE,
       selectedEmployees: [],
       searchTerm: '',
-      // TODO: implement sorting
       pagination: {
         page: 1,
         pageSize: 10,

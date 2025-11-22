@@ -65,13 +65,13 @@ export class IngEmployees extends StoreConnector(Translatable(LitElement)) {
   }
 
   _renderEmpty() {
-    return html`<ing-no-data slot="empty"
-      ><ing-typography variant="body2" color="disabled" strong
-        >${this.t('errorMessages.employeeNotFound', {
+    return html`<ing-no-data slot="empty">
+      <ing-typography variant="body2" color="disabled" strong>
+        ${this.t('errorMessages.employeeNotFound', {
           ns: Namespaces.COMMON,
-        })}</ing-typography
-      ></ing-no-data
-    >`;
+        })}
+      </ing-typography>
+    </ing-no-data>`;
   }
 
   render() {

@@ -78,9 +78,15 @@ export class IngApp extends StoreConnector(Translatable(LitElement)) {
               );
             },
           },
+          {
+            path: '(.*)',
+            component: 'ing-not-found',
+            action: async () => {
+              await import('./components/pages/not-found/not-found.component');
+            },
+          },
         ],
       },
-      {path: '(.*)', redirect: '/'}, // TODO: 404 page
     ]);
   }
 }
